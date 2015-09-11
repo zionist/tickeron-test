@@ -1,5 +1,9 @@
 package com.tickeron.test.config;
 
+import com.tickeron.test.web.functional.FuncEmbedder;
+import com.tickeron.test.web.functional.steps.SeleniumSteps;
+import com.tickeron.test.web.functional.steps.ServiceSteps;
+import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +22,23 @@ public class AppConfig {
     Environment env;
 
     @Bean
-    @Scope("prototype")
     public String testBean() {
         return "TestBeanCreated" + env.getProperty("testprop");
+    }
+
+    @Bean
+    public ServiceSteps serviceSteps() {
+        return new ServiceSteps();
+    }
+
+    @Bean
+    public SeleniumSteps seleniumSteps() {
+        return new SeleniumSteps();
+    }
+
+    @Bean
+    public FuncEmbedder funcEmbedder() {
+        return new FuncEmbedder();
     }
 
 }

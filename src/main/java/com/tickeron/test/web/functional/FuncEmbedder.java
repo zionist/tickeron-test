@@ -1,5 +1,7 @@
 package com.tickeron.test.web.functional;
 
+import com.tickeron.test.web.functional.steps.SeleniumSteps;
+import com.tickeron.test.web.functional.steps.ServiceSteps;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
 import org.jbehave.core.embedder.Embedder;
@@ -13,6 +15,7 @@ import org.jbehave.core.steps.InstanceStepsFactory;
 import org.jbehave.core.steps.ParameterConverters;
 import org.jbehave.core.steps.SilentStepMonitor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
@@ -28,10 +31,13 @@ import java.util.List;
 import static org.jbehave.core.reporters.Format.ANSI_CONSOLE;
 
 public class FuncEmbedder extends Embedder {
+
     @Autowired
-    private String testStoriesPath;
-    //@Autowired
-    //private HttpSteps httpSteps;
+    private Environment env;
+    @Autowired
+    private SeleniumSteps seleniumSteps;
+    @Autowired
+    private ServiceSteps serviceSteps;
 
     @Override
     public EmbedderControls embedderControls() {
@@ -69,6 +75,7 @@ public class FuncEmbedder extends Embedder {
     // list of stories files from ClassPathResource
     public List<String> getStories(String storiesGlob) {
         File storiesDir = null;
+        String testStoriesPath  = env.getProperty("test.stories.path");
         try {
             storiesDir = new ClassPathResource(testStoriesPath).getFile();
         } catch (IOException e) {

@@ -12,14 +12,14 @@ import static java.util.Arrays.asList;
  */
 public class Runner {
 
-    private static AnnotationConfigApplicationContext context= new AnnotationConfigApplicationContext();
+    private static AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
     //private static ApplicationContext springContext = new ClassPathXmlApplicationContext("beans.xml");
-    //private static FuncEmbedder funcEmbedder = springContext.getBean("funcEmbedder", FuncEmbedder.class);
     //private static String path = springContext.getBean("testStoriesPath", String.class);
 
     public static void main(String[] args) {
         context.register(AppConfig.class);
         context.refresh();
+        FuncEmbedder funcEmbedder = context.getBean(FuncEmbedder.class);
 
         String testBean = context.getBean("testBean").toString();
         System.out.println("#");
@@ -29,7 +29,8 @@ public class Runner {
         String glob = System.getProperty("story.glob");
         String meta = System.getProperty("meta.filter");
 
-        //funcEmbedder.useMetaFilters(asList(meta.split(" ")));
-        //funcEmbedder.run(glob);
+
+        funcEmbedder.useMetaFilters(asList(meta.split(" ")));
+        funcEmbedder.run(glob);
     }
 }
