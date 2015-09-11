@@ -55,7 +55,7 @@ task testStories(type: JavaExec) {
             '\n -Pstory option for stories glob ' +
             '\n -Pmeta option for meta filterng'
     group 'test'
-    main = "com.tickeron.web.test.functional.Runner"
+    main = "com.tickeron.test.web.functional.Runner"
     classpath += files(sourceSets.main.runtimeClasspath)
     if (project.hasProperty('story')) {
         String story = project.getProperties().get('story', '*')

@@ -1,4 +1,4 @@
-package com.tickeron.web.test.functional;
+package com.tickeron.test.web.functional;
 
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
