@@ -21,8 +21,8 @@ dependencies {
     // Junit
     compile 'junit:junit:4.4'
     // Jbehave
-    compile 'org.jbehave:jbehave-core:3.9.5'
-    compile 'org.jbehave:jbehave-spring:3.9.5'
+    compile 'org.jbehave:jbehave-core:4.0.4'
+    compile 'org.jbehave:jbehave-spring:4.0.4'
     // Selenium
     ext.seleniumVersion = '2.41.0'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-firefox-driver', version:seleniumVersion

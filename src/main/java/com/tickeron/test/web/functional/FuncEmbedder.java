@@ -68,8 +68,8 @@ public class FuncEmbedder extends Embedder {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        //return new InstanceStepsFactory(configuration(), httpSteps, commonSteps, serviceSteps, dbSteps, p90Steps);
-        return new InstanceStepsFactory(configuration());
+        return new InstanceStepsFactory(configuration(), serviceSteps, seleniumSteps);
+        //return new InstanceStepsFactory(configuration());
     }
 
     // list of stories files from ClassPathResource
