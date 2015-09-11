@@ -1,5 +1,3 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
 apply plugin: 'java'
 //apply plugin: 'idea'
 apply plugin: 'application'
@@ -12,49 +10,39 @@ repositories {
 
 dependencies {
     // Groovy
-    compile 'org.codehaus.groovy:groovy-all:2.3.6:indy'
+    //compile 'org.codehaus.groovy:groovy-all:2.3.6:indy'
     // Logging
     compile 'org.slf4j:slf4j-api:1.7.7'
-    runtime 'org.slf4j:jcl-over-slf4j:1.7.7'
     runtime 'ch.qos.logback:logback-classic:1.1.2'
-    // Apache
-    compile 'org.apache.httpcomponents:httpclient:4.3.4'
-    compile 'avalon:avalon-framework:4.1.4'
     // Spring
     compile 'org.springframework:spring-context:4.0.6.RELEASE'
     compile 'org.springframework:spring-tx:4.0.6.RELEASE'
-    compile 'org.springframework:spring-jdbc:4.0.6.RELEASE'
+    //compile 'org.springframework:spring-jdbc:4.0.6.RELEASE'
     // Junit
     compile 'junit:junit:4.4'
     // Jbehave
     compile 'org.jbehave:jbehave-core:3.9.5'
     compile 'org.jbehave:jbehave-spring:3.9.5'
+    // Selenium
+    ext.seleniumVersion = '2.41.0'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-firefox-driver', version:seleniumVersion
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version:seleniumVersion
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-api', version:seleniumVersion
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version:seleniumVersion
+
     // Gson
-    compile 'com.google.code.gson:gson:2.3.1'
+    //compile 'com.google.code.gson:gson:2.3.1'
     // Jooq
-    compile 'org.jooq:jooq:3.5.1'
-    compile 'org.jooq:jooq-codegen:3.5.1'
-    compile 'org.jooq:jooq-meta:3.5.1'
+    //compile 'org.jooq:jooq:3.5.1'
+    //compile 'org.jooq:jooq-codegen:3.5.1'
+    //compile 'org.jooq:jooq-meta:3.5.1'
     // Postgresql
-    compile "org.postgresql:postgresql:9.4-1200-jdbc41"
-    // Junit
-    compile 'junit:junit:4.4'
+    // compile "org.postgresql:postgresql:9.4-1200-jdbc41"
     // retrofit
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile 'com.squareup.retrofit:converter-jackson:1.9.0'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
-    compile 'com.squareup.okhttp:okhttp:2.0.0'
-    // akka
-    compile 'com.typesafe.akka:akka-actor_2.10:2.3.10'
+    //compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    //compile 'com.squareup.okhttp:okhttp:2.0.0'
 
-    compile fileTree(dir: 'lib', include: ['*.jar'])
-}
-
-task copySoundFiles(type: Copy) {
-    from 'src/main/resources/files'
-    into '/var/opt/p90/tmp'
-    include '**/*.wav'
-    include '**/*.mp3'
+    //compile fileTree(dir: 'lib', include: ['*.jar'])
 }
 
 task wrapper(type: Wrapper) {
@@ -62,12 +50,12 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.2'
 }
 
-task testStories(type: JavaExec, dependsOn: copySoundFiles) {
+task testStories(type: JavaExec) {
     description 'Runs all jbehave stories. ' +
             '\n -Pstory option for stories glob ' +
             '\n -Pmeta option for meta filterng'
     group 'test'
-    main = "ru.teligent.mats.test.functional.Runner"
+    main = "com.tickeron.web.test.functional.Runner"
     classpath += files(sourceSets.main.runtimeClasspath)
     if (project.hasProperty('story')) {
         String story = project.getProperties().get('story', '*')
@@ -88,11 +76,11 @@ task testStories(type: JavaExec, dependsOn: copySoundFiles) {
     }
 }
 
-task jooq(type: JavaExec, dependsOn: processResources) {
-    description 'Generates jOOQ sources for database'
-    main = "org.jooq.util.GenerationTool"
-    //classpath += fileTree(dir: 'lib', include: ['*.jar'])
-    classpath += files(sourceSets.main.runtimeClasspath)
-    //classpath += files("$buildDir/resources/main")
-    args = ["jooq-codegen.xml"]
-}
+//task jooq(type: JavaExec, dependsOn: processResources) {
+//    description 'Generates jOOQ sources for database'
+//    main = "org.jooq.util.GenerationTool"
+//    //classpath += fileTree(dir: 'lib', include: ['*.jar'])
+//    classpath += files(sourceSets.main.runtimeClasspath)
+//    //classpath += files("$buildDir/resources/main")
+//    args = ["jooq-codegen.xml"]
+//}
