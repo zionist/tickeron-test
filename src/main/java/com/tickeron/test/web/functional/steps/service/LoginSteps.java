@@ -1,4 +1,4 @@
-package com.tickeron.test.web.functional.steps;
+package com.tickeron.test.web.functional.steps.service;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.openqa.selenium.By;

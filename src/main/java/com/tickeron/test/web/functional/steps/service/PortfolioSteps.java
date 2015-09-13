@@ -1,4 +1,4 @@
-package com.tickeron.test.web.functional.steps;
+package com.tickeron.test.web.functional.steps.service;
 
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
@@ -53,7 +53,10 @@ public class PortfolioSteps extends ServiceStepsBasic {
         getWebDriver().findElement(By.id("answerno")).click();
     }
 
-    private String findFirstPortfolioInPortfoliosList() {
+
+    @Then("I see Portfolio $portfolioName in portfolio list")
+    @Given("I see Portfolio $portfolioName in portfolio list")
+    public void checkPortfolioCreated(String portfolioName) {
         // Portfolio tab
         sleepBigTimeout();
         getWebDriver().findElement(By.cssSelector("div.main_menu_item:nth-child(2) > div:nth-child(1) > a:nth-child(1)")).click();
@@ -67,19 +70,9 @@ public class PortfolioSteps extends ServiceStepsBasic {
         getWebDriver().findElement(By.cssSelector("div.col-sm-2:nth-child(5) > div:nth-child(1)")).click();
         // Created portfolio must be first menu element. Check it
         sleepBigTimeout();
-        // If list is empty return EmptyString
-        try {
-            return getWebDriver().findElement(By.cssSelector(".cx-navigation-list-first-item > div:nth-child(3) " +
-                    "> a:nth-child(1) > span:nth-child(1)")).getText();
-        } catch (org.openqa.selenium.NoSuchElementException e) {
-            return "";
-        }
-    }
-
-    @Then("I see Portfolio $portfolioName in portfolio list")
-    @Given("I see Portfolio $portfolioName in portfolio list")
-    public void checkPortfolioCreated(String portfolioName) {
-        assertEquals(portfolioName, findFirstPortfolioInPortfoliosList());
+        // If list is empty return EmptyString. We have no any portfolio
+        assertEquals(portfolioName, getWebDriver().findElement(By.cssSelector(".cx-navigation-list-first-item > div:nth-child(3) " +
+                "> a:nth-child(1) > span:nth-child(1)")).getText());
     }
 
     @When("I delete portfolio $portfolioName")
@@ -93,7 +86,16 @@ public class PortfolioSteps extends ServiceStepsBasic {
 
     @Then("I do not see Portfolio $portfolioName in portfolio list")
     public void checkNoPortfolioExists(String portfolioName) {
-        assertNotEquals(portfolioName, findFirstPortfolioInPortfoliosList());
+        sleepBigTimeout();
+        String pagePortfolioName = "";
+        try {
+            pagePortfolioName = getWebDriver().findElement(By.cssSelector(".cx-navigation-list-first-item > div:nth-child(3) " +
+                    "> a:nth-child(1) > span:nth-child(1)")).getText();
+        // If list is empty return EmptyString. We have no any portfolio
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+
+        }
+        assertNotEquals(pagePortfolioName, portfolioName);
 
     }
 

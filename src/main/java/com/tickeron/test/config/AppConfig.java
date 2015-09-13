@@ -2,6 +2,8 @@ package com.tickeron.test.config;
 
 import com.tickeron.test.web.functional.FuncEmbedder;
 import com.tickeron.test.web.functional.steps.*;
+import com.tickeron.test.web.functional.steps.service.LoginSteps;
+import com.tickeron.test.web.functional.steps.service.PortfolioSteps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

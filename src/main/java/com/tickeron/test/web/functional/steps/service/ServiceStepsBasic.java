@@ -1,5 +1,6 @@
-package com.tickeron.test.web.functional.steps;
+package com.tickeron.test.web.functional.steps.service;
 
+import com.tickeron.test.web.functional.steps.SeleniumSteps;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;

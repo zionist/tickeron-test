@@ -1,8 +1,8 @@
 package com.tickeron.test.web.functional;
 
 import com.tickeron.test.web.functional.steps.CommonSteps;
-import com.tickeron.test.web.functional.steps.LoginSteps;
-import com.tickeron.test.web.functional.steps.PortfolioSteps;
+import com.tickeron.test.web.functional.steps.service.LoginSteps;
+import com.tickeron.test.web.functional.steps.service.PortfolioSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
