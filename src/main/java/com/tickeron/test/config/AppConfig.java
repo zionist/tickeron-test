@@ -1,6 +1,7 @@
 package com.tickeron.test.config;
 
 import com.tickeron.test.web.functional.FuncEmbedder;
+import com.tickeron.test.web.functional.steps.CommonSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
 import com.tickeron.test.web.functional.steps.ServiceSteps;
 import org.openqa.selenium.WebDriver;
@@ -22,11 +23,6 @@ public class AppConfig {
     Environment env;
 
     @Bean
-    public String testBean() {
-        return "TestBeanCreated" + env.getProperty("testprop");
-    }
-
-    @Bean
     public ServiceSteps serviceSteps() {
         return new ServiceSteps();
     }
@@ -39,6 +35,11 @@ public class AppConfig {
     @Bean
     public FuncEmbedder funcEmbedder() {
         return new FuncEmbedder();
+    }
+
+    @Bean
+    public CommonSteps commonSteps() {
+        return new CommonSteps();
     }
 
 }

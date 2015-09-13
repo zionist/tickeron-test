@@ -1,16 +1,13 @@
-Story: Work with portfolio
+Story: Portfolio scenarios
 
 Meta:
 @portfolio
 
-Scenario:
-Set test params 1
-Given I will use FireFoxWebDriver
-And I make login with user 4@portfoliodirect.com and password 123456789
-Then WebDriver is stopped
+Scenario: sscen 1
+Meta:
+@complex
+GivenStories:
+    stories/login.story#{name:Login with email and password}
+Given Do nothing
 
-Scenario:
-Set test params 2
-Given I will use ChromWebDriver
-And I make login with user 4@portfoliodirect.com and password 123456789
-Then WebDriver is stopped
+

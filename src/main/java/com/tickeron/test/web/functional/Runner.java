@@ -21,14 +21,8 @@ public class Runner {
         context.refresh();
         FuncEmbedder funcEmbedder = context.getBean(FuncEmbedder.class);
 
-        String testBean = context.getBean("testBean").toString();
-        System.out.println("#");
-        System.out.println(testBean);
-        System.out.println("#");
-
         String glob = System.getProperty("story.glob");
         String meta = System.getProperty("meta.filter");
-
 
         funcEmbedder.useMetaFilters(asList(meta.split(" ")));
         funcEmbedder.run(glob);

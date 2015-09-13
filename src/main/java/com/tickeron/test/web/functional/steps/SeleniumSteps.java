@@ -1,6 +1,8 @@
 package com.tickeron.test.web.functional.steps;
 
+import org.jbehave.core.annotations.AfterScenario;
 import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -20,6 +22,9 @@ public class SeleniumSteps {
     @Autowired
     Environment environment;
 
+    @Autowired
+    CommonSteps commonSteps;
+
     @Given("I will use FireFoxWebDriver")
     public void setFireFoxWebDriver() {
         webDriver = new FirefoxDriver();
@@ -27,7 +32,7 @@ public class SeleniumSteps {
     }
 
     @Given("I will use ChromWebDriver")
-    public void setChromWebDriver() throws InterruptedException {
+    public void setChromWebDriver() {
         System.setProperty("webdriver.chrome.driver", environment.getProperty("chrome.driver"));
         webDriver = new ChromeDriver();
         webDriver.manage().deleteAllCookies();
@@ -42,8 +47,25 @@ public class SeleniumSteps {
         }
     }
 
-    @Then("WebDriver is stopped")
+    @Given("Browser ready")
+    public void setUpWebDriver() {
+        //String browser = commonSteps.getTestParamsStorage().get("browser");
+        String browser = environment.getProperty("default.browser");
+        if (browser.equals("Firefox")) setFireFoxWebDriver();
+        else if (browser.equals("Chrome")) setChromWebDriver();
+        // TODO: create exceptions
+        else throw new RuntimeException(String.format("Wrong browser name - %s", browser));
+    }
+
+    @Then("Browser is stopped")
     public void stopDriver() {
         webDriver.close();
     }
+
+    @AfterScenario
+    public void tearDown() {
+        if (webDriver != null) webDriver.quit();
+    }
+
+
 }

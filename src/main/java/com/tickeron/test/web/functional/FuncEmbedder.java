@@ -1,5 +1,6 @@
 package com.tickeron.test.web.functional;
 
+import com.tickeron.test.web.functional.steps.CommonSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
 import com.tickeron.test.web.functional.steps.ServiceSteps;
 import org.jbehave.core.configuration.Configuration;
@@ -26,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,6 +42,8 @@ public class FuncEmbedder extends Embedder {
     private SeleniumSteps seleniumSteps;
     @Autowired
     private ServiceSteps serviceSteps;
+    @Autowired
+    private CommonSteps commonSteps;
 
     @Override
     public EmbedderControls embedderControls() {
@@ -72,7 +76,7 @@ public class FuncEmbedder extends Embedder {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), serviceSteps, seleniumSteps);
+        return new InstanceStepsFactory(configuration(), serviceSteps, seleniumSteps, commonSteps);
         //return new InstanceStepsFactory(configuration());
     }
 
@@ -108,6 +112,9 @@ public class FuncEmbedder extends Embedder {
                 if (!filename.startsWith("_") || filename.equals(storiesGlob)) paths.add(p.toString());
             }
         }
+
+        // sort
+        Collections.sort(paths);
 
         return paths;
     }
