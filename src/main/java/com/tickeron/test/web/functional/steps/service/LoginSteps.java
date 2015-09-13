@@ -13,6 +13,8 @@ public class LoginSteps extends  ServiceStepsBasic {
 
     @When("I make login with user $user and password $password")
     public void login(String username, String password) throws InterruptedException {
+        username = paramsAndVariablesSteps.substituteParamsAndVariables(username);
+        password = paramsAndVariablesSteps.substituteParamsAndVariables(password);
         getWebDriver().get(environment.getProperty("server.url"));
         sleepBigTimeout();
         // Login button

@@ -46,8 +46,8 @@ public class AppConfig {
     }
 
     @Bean
-    public CommonSteps commonSteps() {
-        return new CommonSteps();
+    public ParamsAndVariablesSteps commonSteps() {
+        return new ParamsAndVariablesSteps();
     }
 
 

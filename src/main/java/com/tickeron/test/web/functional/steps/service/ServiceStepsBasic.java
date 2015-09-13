@@ -1,5 +1,6 @@
 package com.tickeron.test.web.functional.steps.service;
 
+import com.tickeron.test.web.functional.steps.ParamsAndVariablesSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class ServiceStepsBasic {
 
     @Autowired
     SeleniumSteps seleniumSteps;
+
+    @Autowired
+    ParamsAndVariablesSteps paramsAndVariablesSteps;
 
     public WebDriver getWebDriver() {
         return seleniumSteps.getWebDriver();

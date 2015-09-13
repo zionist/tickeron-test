@@ -7,6 +7,7 @@ Meta:
 @dev
 @rpc
 
-And Test params are:
-|name             |value               |
-|defaultUser      |defaultUserName     |
+Given Test params are:
+|name             |value                    |
+|username         |4@portfoliodirect.com    |
+|password         |123456789                |

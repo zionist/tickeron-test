@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * Interface class for common variable storage for all steps
  */
-public class CommonSteps extends Steps {
+public class ParamsAndVariablesSteps extends Steps {
 
     @Autowired
     Environment environment;
@@ -34,7 +34,7 @@ public class CommonSteps extends Steps {
         return testParams;
     }
 
-    public String substituteParams(String input) {
+    public String substituteParamsAndVariables(String input) {
         input = substituteTestParams(input);
         return substituteTestVariables(input);
 
@@ -62,7 +62,7 @@ public class CommonSteps extends Steps {
         testParams.put("__dynamic__localdate_now", String.valueOf(LocalDate.now()));
         for (int i = 0; i < table.getRowCount(); i++) {
             String name = table.getRow(i).get("name");
-            String value = table.getRowAsParameters(i, true).valueAs("value", String.class);
+            String value = table.getRowAsParameters(i, false).valueAs("value", String.class);
             testParams.put(name, value);
         }
     }

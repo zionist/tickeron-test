@@ -1,6 +1,6 @@
 package com.tickeron.test.web.functional;
 
-import com.tickeron.test.web.functional.steps.CommonSteps;
+import com.tickeron.test.web.functional.steps.ParamsAndVariablesSteps;
 import com.tickeron.test.web.functional.steps.service.LoginSteps;
 import com.tickeron.test.web.functional.steps.service.PortfolioSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
@@ -46,7 +46,7 @@ public class FuncEmbedder extends Embedder {
     @Autowired
     private LoginSteps loginSteps;
     @Autowired
-    private CommonSteps commonSteps;
+    private ParamsAndVariablesSteps paramsAndVariablesSteps;
 
     @Override
     public EmbedderControls embedderControls() {
@@ -79,7 +79,7 @@ public class FuncEmbedder extends Embedder {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), portfolioSteps, loginSteps, seleniumSteps, commonSteps);
+        return new InstanceStepsFactory(configuration(), portfolioSteps, loginSteps, seleniumSteps, paramsAndVariablesSteps);
         //return new InstanceStepsFactory(configuration());
     }
 

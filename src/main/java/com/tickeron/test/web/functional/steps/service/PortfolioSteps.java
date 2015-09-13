@@ -13,6 +13,7 @@ public class PortfolioSteps extends ServiceStepsBasic {
 
     @When("I create basic portfolio $portfolioName using starts page wizard")
     public void basicPortfolioCreateUsingStartsPageWizard(String portfolioName) {
+        portfolioName = paramsAndVariablesSteps.substituteParamsAndVariables(portfolioName);
         sleepBigTimeout();
         // What would you like to do today? -> Create New Portfolio
         getWebDriver().findElement(By.id("answercreate")).click();
@@ -57,6 +58,7 @@ public class PortfolioSteps extends ServiceStepsBasic {
     @Then("I see Portfolio $portfolioName in portfolio list")
     @Given("I see Portfolio $portfolioName in portfolio list")
     public void checkPortfolioCreated(String portfolioName) {
+        portfolioName = paramsAndVariablesSteps.substituteParamsAndVariables(portfolioName);
         // Portfolio tab
         sleepBigTimeout();
         getWebDriver().findElement(By.cssSelector("div.main_menu_item:nth-child(2) > div:nth-child(1) > a:nth-child(1)")).click();
@@ -77,6 +79,7 @@ public class PortfolioSteps extends ServiceStepsBasic {
 
     @When("I delete portfolio $portfolioName")
     public void deletePortolio(String portfolioName) {
+        portfolioName = paramsAndVariablesSteps.substituteParamsAndVariables(portfolioName);
         // Click trash icon
         getWebDriver().findElement(By.cssSelector(".cx-navigation-list-first-item > div:nth-child(8) > a:nth-child(1)")).click();
         // Do you really want to delete portfolio? -> Yes
@@ -86,6 +89,7 @@ public class PortfolioSteps extends ServiceStepsBasic {
 
     @Then("I do not see Portfolio $portfolioName in portfolio list")
     public void checkNoPortfolioExists(String portfolioName) {
+        portfolioName = paramsAndVariablesSteps.substituteParamsAndVariables(portfolioName);
         sleepBigTimeout();
         String pagePortfolioName = "";
         try {

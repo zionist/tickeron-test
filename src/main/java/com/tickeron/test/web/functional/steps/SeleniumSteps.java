@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
 import java.util.Optional;
@@ -21,7 +20,7 @@ public class SeleniumSteps {
     private Environment environment;
 
     @Autowired
-    private CommonSteps commonSteps;
+    private ParamsAndVariablesSteps paramsAndVariablesSteps;
 
     private void resetBrowser() {
         webDriver.ifPresent(d -> d.manage().deleteAllCookies());
@@ -40,7 +39,7 @@ public class SeleniumSteps {
 
     @Given("Browser ready")
     public void setUpWebDriver() {
-        //String browser = commonSteps.getTestParamsStorage().get("browser");
+        //String browser = paramsAndVariablesSteps.getTestParamsStorage().get("browser");
 
         // Do not create new browser use old one. Just reset cookies
         if (webDriver.isPresent()) {
