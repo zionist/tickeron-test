@@ -9,6 +9,7 @@ import org.jbehave.core.embedder.EmbedderControls;
 import org.jbehave.core.io.CodeLocations;
 import org.jbehave.core.io.LoadFromClasspath;
 import org.jbehave.core.reporters.CrossReference;
+import org.jbehave.core.reporters.FreemarkerViewGenerator;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
@@ -29,6 +30,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.jbehave.core.reporters.Format.ANSI_CONSOLE;
+import static org.jbehave.core.reporters.Format.HTML;
 
 public class FuncEmbedder extends Embedder {
 
@@ -52,6 +54,7 @@ public class FuncEmbedder extends Embedder {
     @Override
     public Configuration configuration() {
         Class<? extends FuncEmbedder> embedderClass = this.getClass();
+
         return new MostUsefulConfiguration()
                 .useStoryLoader(new LoadFromClasspath(embedderClass.getClassLoader()))
                 .useStoryReporterBuilder(new StoryReporterBuilder()
@@ -61,9 +64,10 @@ public class FuncEmbedder extends Embedder {
                         .withCrossReference(new CrossReference()))
                 .useParameterConverters(new ParameterConverters()
                         .addConverters(new ParameterConverters.DateConverter(new SimpleDateFormat("yyyy-MM-dd")))) // use custom date pattern
-                //.useStepPatternParser(new RegexPrefixCapturingPatternParser(
-                //        "%")) // use '%' instead of '$' to identify parameters
+                        //.useStepPatternParser(new RegexPrefixCapturingPatternParser(
+                        //        "%")) // use '%' instead of '$' to identify parameters
                 .useStepMonitor(new SilentStepMonitor());
+
     }
 
     @Override

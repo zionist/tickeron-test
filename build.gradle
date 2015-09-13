@@ -8,6 +8,10 @@ repositories {
     mavenLocal()
 }
 
+configurations {
+    jbehave_resources
+}
+
 dependencies {
     // Groovy
     //compile 'org.codehaus.groovy:groovy-all:2.3.6:indy'
@@ -23,6 +27,7 @@ dependencies {
     // Jbehave
     compile 'org.jbehave:jbehave-core:4.0.4'
     compile 'org.jbehave:jbehave-spring:4.0.4'
+    jbehave_resources ( 'org.jbehave.site:jbehave-site-resources:3.3@zip')
     // Selenium
     ext.seleniumVersion = '2.41.0'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-firefox-driver', version:seleniumVersion
@@ -43,6 +48,13 @@ dependencies {
     //compile 'com.squareup.okhttp:okhttp:2.0.0'
 
     //compile fileTree(dir: 'lib', include: ['*.jar'])
+}
+
+task extractJbehaveResources(type: Copy) {
+    configurations.jbehave_resources.asFileTree.each {
+        from( zipTree(it) )
+    }
+    into file("${project.buildDir}/classes/jbehave/view/")
 }
 
 task wrapper(type: Wrapper) {
@@ -75,6 +87,9 @@ task testStories(type: JavaExec) {
         systemProperty 'meta.filter', ''
     }
 }
+
+//extractJbehaveResources.mustRunAfter testStories
+testStories.dependsOn extractJbehaveResources
 
 //task jooq(type: JavaExec, dependsOn: processResources) {
 //    description 'Generates jOOQ sources for database'
