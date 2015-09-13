@@ -14,6 +14,7 @@ Login with email and password as advisor user
 Meta:
 @name Login with email and password as advisor user
 Given Browser ready
+Given Browser ready
 When I make login with user 4@portfoliodirect.com and password 123456789
 Then The login is successful
 

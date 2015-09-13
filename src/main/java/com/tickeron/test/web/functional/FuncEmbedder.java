@@ -1,8 +1,9 @@
 package com.tickeron.test.web.functional;
 
 import com.tickeron.test.web.functional.steps.CommonSteps;
+import com.tickeron.test.web.functional.steps.LoginSteps;
+import com.tickeron.test.web.functional.steps.PortfolioSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
-import com.tickeron.test.web.functional.steps.ServiceSteps;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
 import org.jbehave.core.embedder.Embedder;
@@ -10,7 +11,6 @@ import org.jbehave.core.embedder.EmbedderControls;
 import org.jbehave.core.io.CodeLocations;
 import org.jbehave.core.io.LoadFromClasspath;
 import org.jbehave.core.reporters.CrossReference;
-import org.jbehave.core.reporters.FreemarkerViewGenerator;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
@@ -32,7 +32,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.jbehave.core.reporters.Format.ANSI_CONSOLE;
-import static org.jbehave.core.reporters.Format.HTML;
 
 public class FuncEmbedder extends Embedder {
 
@@ -40,8 +39,12 @@ public class FuncEmbedder extends Embedder {
     private Environment env;
     @Autowired
     private SeleniumSteps seleniumSteps;
+    //@Autowired
+    //private ServiceStepsBasic serviceSteps;
     @Autowired
-    private ServiceSteps serviceSteps;
+    private PortfolioSteps portfolioSteps;
+    @Autowired
+    private LoginSteps loginSteps;
     @Autowired
     private CommonSteps commonSteps;
 
@@ -76,7 +79,7 @@ public class FuncEmbedder extends Embedder {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), serviceSteps, seleniumSteps, commonSteps);
+        return new InstanceStepsFactory(configuration(), portfolioSteps, loginSteps, seleniumSteps, commonSteps);
         //return new InstanceStepsFactory(configuration());
     }
 

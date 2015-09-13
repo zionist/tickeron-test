@@ -1,15 +1,11 @@
 package com.tickeron.test.config;
 
 import com.tickeron.test.web.functional.FuncEmbedder;
-import com.tickeron.test.web.functional.steps.CommonSteps;
-import com.tickeron.test.web.functional.steps.SeleniumSteps;
-import com.tickeron.test.web.functional.steps.ServiceSteps;
-import org.openqa.selenium.WebDriver;
+import com.tickeron.test.web.functional.steps.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
 
 /**
@@ -22,9 +18,19 @@ public class AppConfig {
     @Autowired
     Environment env;
 
+    //@Bean
+    //public ServiceStepsBasic serviceSteps() {
+    //    return new ServiceStepsBasic();
+    //}
+
     @Bean
-    public ServiceSteps serviceSteps() {
-        return new ServiceSteps();
+    public LoginSteps loginSteps() {
+        return new LoginSteps();
+    }
+
+    @Bean
+    PortfolioSteps portfolioSteps() {
+        return new PortfolioSteps();
     }
 
     @Bean
@@ -41,5 +47,6 @@ public class AppConfig {
     public CommonSteps commonSteps() {
         return new CommonSteps();
     }
+
 
 }

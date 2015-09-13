@@ -8,57 +8,62 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
+import java.util.Optional;
+
 /**
  * Created by slaviann on 11.09.15.
  */
 public class SeleniumSteps {
 
-    public WebDriver webDriver;
+    public Optional<WebDriver> webDriver = Optional.empty();
 
     @Autowired
-    Environment environment;
+    private Environment environment;
 
     @Autowired
-    CommonSteps commonSteps;
+    private CommonSteps commonSteps;
+
+    private void resetBrowser() {
+        webDriver.ifPresent(d -> d.manage().deleteAllCookies());
+    }
+
 
     private void setFireFoxWebDriver() {
-        webDriver = new FirefoxDriver();
-        webDriver.manage().deleteAllCookies();
+       webDriver = Optional.of(new FirefoxDriver());
     }
 
     private void setChromWebDriver() {
         System.setProperty("webdriver.chrome.driver", environment.getProperty("chrome.driver"));
-        webDriver = new ChromeDriver();
-        webDriver.manage().deleteAllCookies();
+        webDriver = Optional.of(new ChromeDriver());
     }
 
-    public void sleep() {
-        try {
-            Thread.sleep(environment.getProperty("sleep.timeout", Integer.class) * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-    }
 
     @Given("Browser ready")
     public void setUpWebDriver() {
         //String browser = commonSteps.getTestParamsStorage().get("browser");
-        String browser = environment.getProperty("default.browser");
+
+        // Do not create new browser use old one. Just reset cookies
+        if (webDriver.isPresent()) {
+            resetBrowser();
+            return;
+        }
+
+        String browser = environment.getProperty("browser");
         if (browser.equals("Firefox")) setFireFoxWebDriver();
         else if (browser.equals("Chrome")) setChromWebDriver();
-        // TODO: create exceptions
         else throw new RuntimeException(String.format("Wrong browser name - %s", browser));
     }
 
-   // @Then("Browser is stopped")
-   // public void stopDriver() {
-   //     webDriver.close();
-   // }
+    public WebDriver getWebDriver() {
+        return webDriver.orElseThrow(() -> new RuntimeException("There is no WebDriver"));
+    }
 
     @AfterStory
-    public void tearDown() {
-        if (webDriver != null) webDriver.quit();
+    // Close browser if close.browser.after.story is true
+    public void AfterStory() {
+        if(webDriver.isPresent() && environment.getProperty("close.browser.after.story", Boolean.class)) {
+            webDriver.get().quit();
+        }
     }
 
 
