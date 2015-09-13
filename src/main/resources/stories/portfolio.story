@@ -2,12 +2,12 @@ Story: Portfolio scenarios
 
 Meta:
 @portfolio
+@web
 
-Scenario: sscen 1
+Scenario: Screate portfolio as advisor user
 Meta:
-@complex
 GivenStories:
-    stories/login.story#{name:Login with email and password}
-Given Do nothing
+    stories/login.story#{name:Login with email and password as advisor user}
+Given I wait for 10000 milliseconds
 
 
