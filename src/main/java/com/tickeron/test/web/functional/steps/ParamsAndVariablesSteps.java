@@ -67,18 +67,6 @@ public class ParamsAndVariablesSteps extends Steps {
         }
     }
 
-    @Given("I wait for $milliseconds milliseconds")
-    @Then("I wait for $milliseconds milliseconds")
-    public void Wait(Integer milliseconds) throws InterruptedException {
-        Thread.sleep(milliseconds);
-    }
-
-    @Given("Do nothing")
-    @Then("Do nothing")
-    public void doNothing() {
-        System.out.println("# Do nothing");
-
-    }
 
     @Given("Set param $name value $value")
     public void setParamValue(String name,  String value) {

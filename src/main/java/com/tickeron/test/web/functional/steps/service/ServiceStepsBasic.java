@@ -2,6 +2,8 @@ package com.tickeron.test.web.functional.steps.service;
 
 import com.tickeron.test.web.functional.steps.ParamsAndVariablesSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -44,6 +46,18 @@ public class ServiceStepsBasic {
         }
     }
 
+    @Given("I wait for $milliseconds milliseconds")
+    @Then("I wait for $milliseconds milliseconds")
+    public void Wait(Integer milliseconds) throws InterruptedException {
+        Thread.sleep(milliseconds);
+    }
+
+    @Given("Do nothing")
+    @Then("Do nothing")
+    public void doNothing() {
+        System.out.println("# Do nothing");
+
+    }
 
 
 
