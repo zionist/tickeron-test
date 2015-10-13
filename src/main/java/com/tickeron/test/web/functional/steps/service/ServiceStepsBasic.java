@@ -77,18 +77,13 @@ public class ServiceStepsBasic {
 
     @When("I click element with css selector $selector")
     public void clickOnElementByCssSelector(String selector) {
-        sleepBigTimeout();
-        System.out.println("#" + selector + "#");
-        getWebDriver().findElement(By.cssSelector(selector));
-        sleepBigTimeout();
-        System.out.println("#" + selector + "#");
-        getWebDriver().findElement(By.cssSelector(selector));
+        sleepSmallTimeout();
+        getWebDriver().findElement(By.cssSelector(selector)).click();
     }
 
     @When("I type $string into $description with css selector $selector")
     // description only for humans
     public void typeIntoElementByCssSelector(String input, String description, String selector) {
-        sleepBigTimeout();
         typeIntoElementByCssSelector(input, selector);
 
     }
@@ -108,6 +103,7 @@ public class ServiceStepsBasic {
 
     @Then("I see element with css selector $selector contains: $text")
     public void checkElementContainsText(String selector, String text) {
+        sleepBigTimeout();
         WebElement element = getWebDriver().findElement(By.cssSelector(selector));
         assertEquals(element.getText(), text);
 
