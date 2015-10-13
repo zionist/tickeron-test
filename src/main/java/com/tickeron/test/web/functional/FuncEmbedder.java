@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.jbehave.core.reporters.Format.CONSOLE;
+import static org.jbehave.core.reporters.Format.ANSI_CONSOLE;
 
 public class FuncEmbedder extends Embedder {
 
@@ -67,7 +67,7 @@ public class FuncEmbedder extends Embedder {
                 .useStoryReporterBuilder(new StoryReporterBuilder()
                         .withCodeLocation(CodeLocations.codeLocationFromClass(embedderClass))
                         .withDefaultFormats()
-                        .withFormats(CONSOLE)
+                        .withFormats(ANSI_CONSOLE)
                         .withCrossReference(new CrossReference()))
                 .useParameterConverters(new ParameterConverters()
                         .addConverters(new ParameterConverters.DateConverter(new SimpleDateFormat("yyyy-MM-dd")))) // use custom date pattern

@@ -65,6 +65,7 @@ public class SeleniumSteps {
     public void AfterStory() {
         if(webDriver.isPresent() && environment.getProperty("close.browser.after.story", Boolean.class)) {
             webDriver.get().quit();
+            webDriver = Optional.empty();
         }
     }
 
