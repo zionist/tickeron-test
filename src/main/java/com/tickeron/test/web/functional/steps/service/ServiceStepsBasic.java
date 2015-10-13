@@ -65,8 +65,7 @@ public class ServiceStepsBasic {
     @Given("Do nothing")
     @Then("Do nothing")
     public void doNothing() {
-        System.out.println("# Do nothing");
-
+        //System.out.println("# Do nothing");
     }
 
     @When("I click on $description with css selector $selector")
