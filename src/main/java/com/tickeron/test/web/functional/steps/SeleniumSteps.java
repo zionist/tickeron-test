@@ -1,6 +1,7 @@
 package com.tickeron.test.web.functional.steps;
 
 import org.jbehave.core.annotations.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -51,7 +52,9 @@ public class SeleniumSteps {
         if (browser.equals("Firefox")) setFireFoxWebDriver();
         else if (browser.equals("Chrome")) setChromWebDriver();
         else throw new RuntimeException(String.format("Wrong browser name - %s", browser));
+        getWebDriver().get(environment.getProperty("server.url"));
     }
+
 
     public WebDriver getWebDriver() {
         return webDriver.orElseThrow(() -> new RuntimeException("There is no WebDriver"));
@@ -64,6 +67,7 @@ public class SeleniumSteps {
             webDriver.get().quit();
         }
     }
+
 
 
 }

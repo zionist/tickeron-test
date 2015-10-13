@@ -4,9 +4,15 @@ import com.tickeron.test.web.functional.steps.ParamsAndVariablesSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import static org.junit.Assert.*;
+
+import java.util.Optional;
 
 /**
  * Created by slaviann on 11.09.15.
@@ -26,6 +32,10 @@ public class ServiceStepsBasic {
 
     public WebDriver getWebDriver() {
         return seleniumSteps.getWebDriver();
+    }
+
+    protected String substituteParamsAndVariables(String input) {
+        return paramsAndVariablesSteps.substituteParamsAndVariables(input);
     }
 
     protected void sleepBigTimeout() {
@@ -59,6 +69,43 @@ public class ServiceStepsBasic {
 
     }
 
+    @When("I click on $description with css selector $selector")
+    // description only for humans
+    public void clickOnElementByCssSelector(String description, String selector) {
+        clickOnElementByCssSelector(selector);
+    }
 
+    @When("I click element with css selector $selector")
+    public void clickOnElementByCssSelector(String selector) {
+        sleepBigTimeout();
+        getWebDriver().findElement(By.cssSelector(selector));
+    }
 
+    @When("I type $string into $description with css selector $selector")
+    // description only for humans
+    public void typeIntoElementByCssSelector(String input, String description, String selector) {
+        sleepBigTimeout();
+        typeIntoElementByCssSelector(input, selector);
+
+    }
+
+    @When("I type $string into element with css selector $selector")
+    public void typeIntoElementByCssSelector(String input, String selector) {
+        sleepBigTimeout();
+        input = substituteParamsAndVariables(input);
+        getWebDriver().findElement(By.cssSelector(selector)).sendKeys(input);
+    }
+
+    @Then("I see $description with css selector $selector contains: $text")
+    // description only for humans
+    public void checkElementContainsText(String desription, String selector, String text) {
+        checkElementContainsText(selector, text);
+    }
+
+    @Then("I see element with css selector $selector contains: $text")
+    public void checkElementContainsText(String selector, String text) {
+        WebElement element = getWebDriver().findElement(By.cssSelector(selector));
+        assertEquals(element.getText(), text);
+
+    }
 }
