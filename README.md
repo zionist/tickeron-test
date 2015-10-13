@@ -6,7 +6,7 @@
  3. open cmd; cd tickeron-test 
  4. gradlew.bat testStories -Pstory=login
 
-## How to run in Linux
+## How to run on Linux
  1. install jdk8 
  2. git clone https://github.com/zionist/tickeron-test
  3. cd tickeron-test 
