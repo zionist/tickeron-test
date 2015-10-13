@@ -29,7 +29,7 @@ dependencies {
     compile 'org.jbehave:jbehave-spring:4.0.4'
     jbehave_resources ( 'org.jbehave.site:jbehave-site-resources:3.3@zip')
     // Selenium
-    ext.seleniumVersion = '2.41.0'
+    ext.seleniumVersion = '2.48.2'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-firefox-driver', version:seleniumVersion
     compile group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version:seleniumVersion
     compile group: 'org.seleniumhq.selenium', name: 'selenium-api', version:seleniumVersion
