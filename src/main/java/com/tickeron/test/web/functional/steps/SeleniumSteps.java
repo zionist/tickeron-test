@@ -52,6 +52,9 @@ public class SeleniumSteps {
         if (browser.equals("Firefox")) setFireFoxWebDriver();
         else if (browser.equals("Chrome")) setChromWebDriver();
         else throw new RuntimeException(String.format("Wrong browser name - %s", browser));
+        System.out.println("#");
+        System.out.println(environment.getProperty("server.url"));
+        System.out.println("#");
         getWebDriver().get(environment.getProperty("server.url"));
     }
 

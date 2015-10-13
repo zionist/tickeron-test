@@ -78,6 +78,10 @@ public class ServiceStepsBasic {
     @When("I click element with css selector $selector")
     public void clickOnElementByCssSelector(String selector) {
         sleepBigTimeout();
+        System.out.println("#" + selector + "#");
+        getWebDriver().findElement(By.cssSelector(selector));
+        sleepBigTimeout();
+        System.out.println("#" + selector + "#");
         getWebDriver().findElement(By.cssSelector(selector));
     }
 
