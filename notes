@@ -1,0 +1,68 @@
+1. Подсчет покрытия
+2. Новые тест кейсы
+3. Этапы миграции: 
+  просмотр что есть, сортировка по имя_страницы_сущность, миграция в git, переписывание на BDD + исполняемый код (автотесты).
+4. Кто что будет делать
+
+Пример проверки:
+
+When I type test@test.com into login form input with id #email
+And I type secretPassword into login form input with id #password
+And I click on login button with id #login
+Then I see welcome div with id .jspPane > div:nth-child(1) contains:
+	Welcome to Tickeron. Please select one of the options to the right; 
+	and we will teach you how to use the system and guide you through basic steps.
+
+
+Описано в PRD
+https://tickeron.atlassian.net/browse/TMA-693
+https://docs.google.com/document/d/1EIbNOiZxhubIo_p_pA7ayYffR_TsxjFv4FB8lMKCuQ0/edit#heading=h.2heg33ij0hla
+
+Апгрейд tool.
+
+Deployment. Апгрейд базы  с данными.
+
+ФАйлы надо прогнать. Апгрейд дискриптор в каком порядке апгрейдить.
+
+Тоол который запускает. как законектица. Берет файл. Смотрит какая версия БД, до какой версии ффайл может заапгрейдить БД.
+Deployment time upgrade предпологает что скрипты были разработаны и протестированы. И все что нужо это нужно применить скрипты к базе данных.
+
+Есть development time. Есть спринт и люди кладут туда скрипты. И каждый обновляет deployment descriptor file. И мы должны обновлять базу и не потерять данные QA. 
+
+Tool имеет режим development. Он умеет возможность посмотреть diff какие были были применены, а какие не были. 
+
+Мы не хотим каждое утро сносить БД. Появляется необходимость внутри спринтового апгрейда базы. 
+Положили апгрейд скрипты  в основной дескриптор. И нужно сделать так ч
+
+Режим деплоймет тупо прогнать все скрипты и девелопмент с diff. Все описано в PRD.
+
+
+У каждого есть версия деплоймент файла, которая
+
+И все нужно сделать чтобы когда он делает ребейз чтобы оно не автоматически заребейзилось а произошел мерж конфликт.
+
+[10:16:22] yoosoopov: https://tickeron.atlassian.net/browse/TMA-693
+[10:16:35] Наталия Мельниченко: https://docs.google.com/document/d/1EIbNOiZxhubIo_p_pA7ayYffR_TsxjFv4FB8lMKCuQ0/edit#heading=h.2heg33ij0hla
+
+
+Алгоритм 1 - применения последней миграции работает в develop режиме
+
+Алгоритм 2 - сравнения, верификации и наката обновлениий работает в deploy и в develop режиме.
+
+======== code flow ======
+
+dev -> rc -> staging -> Db migration -> master | production
+
+
+======== test flow ======
+
+Разработчики работают  в feature ветках. Каждая feature ветка тестируется тестировщиком по рекомендации разработчика.
+После того как ветка смерджена в dev, разработчик ставит статус джиры "Integrated" и джира тестируется в dev. Возможны предварительные сборки dev.
+В какой то момент от ветки dev стартует ветка rc с codefreeze. Код rc деплоится на сервер и тестируется
+После этого код rc попадает на staging сервер и тестируется там. 
+Перед тем как попасть в продакшн и ветку мастер заливаются дампы BD с данными пользователей. 
+Код заливается  в продакшн.
+
+
+
+
