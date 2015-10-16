@@ -51,7 +51,7 @@ Tool имеет режим development. Он умеет возможность �
 
 ======== code flow ======
 
-dev -> rc -> staging -> Db migration -> master | production
+feature -> dev -> rc -> staging -> master | production
 
 
 ======== test flow ======
