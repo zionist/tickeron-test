@@ -9,5 +9,5 @@ Meta:
 
 Given Test params are:
 |name             |value                    |
-|username         |4@portfoliodirect.com    |
-|password         |123456789                |
+|username         |{param.advisor.username} |
+|password         |{param.advisor.password} |

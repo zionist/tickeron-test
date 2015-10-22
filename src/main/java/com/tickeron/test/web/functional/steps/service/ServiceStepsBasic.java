@@ -1,5 +1,6 @@
 package com.tickeron.test.web.functional.steps.service;
 
+import com.tickeron.test.common.exceptions.AssertionErrorWithContextParamsException;
 import com.tickeron.test.web.functional.steps.ParamsAndVariablesSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
 import org.jbehave.core.annotations.Given;
@@ -104,7 +105,10 @@ public class ServiceStepsBasic {
     public void checkElementContainsText(String selector, String text) {
         sleepBigTimeout();
         WebElement element = getWebDriver().findElement(By.cssSelector(selector));
-        assertEquals(element.getText(), text);
-
+        try {
+            assertEquals(element.getText(), text);
+        } catch (AssertionError e) {
+            throw new AssertionErrorWithContextParamsException(e, paramsAndVariablesSteps.getTestParamsStorage());
+        }
     }
 }

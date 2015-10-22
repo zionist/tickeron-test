@@ -13,8 +13,6 @@ import static java.util.Arrays.asList;
 public class Runner {
 
     private static AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-    //private static ApplicationContext springContext = new ClassPathXmlApplicationContext("beans.xml");
-    //private static String path = springContext.getBean("testStoriesPath", String.class);
 
     public static void main(String[] args) {
         context.register(AppConfig.class);

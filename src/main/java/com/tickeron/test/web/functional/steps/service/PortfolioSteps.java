@@ -12,48 +12,12 @@ import static org.junit.Assert.*;
 public class PortfolioSteps extends ServiceStepsBasic {
 
     @When("I create basic portfolio $portfolioName using starts page wizard")
-    public void basicPortfolioCreateUsingStartsPageWizard(String portfolioName) {
-        portfolioName = paramsAndVariablesSteps.substituteParamsAndVariables(portfolioName);
-        sleepBigTimeout();
-        // What would you like to do today? -> Create New Portfolio
-        getWebDriver().findElement(By.id("answercreate")).click();
-        sleepSmallTimeout();
-        // Please enter a title for your portfolio -> $portfolioName
-        getWebDriver().findElement(By.id("prtName")).sendKeys(portfolioName);
-        sleepSmallTimeout();
-        getWebDriver().findElement(By.cssSelector("a.btn")).click();
-        sleepSmallTimeout();
-        // What is your risk tolerance level? -> moderate
-        getWebDriver().findElement(By.id("answermoderate")).click();
-        sleepSmallTimeout();
-        // How soon do you plan to withdraw funds? -> 5 - 15 years
-        getWebDriver().findElement(By.id("answer5_15")).click();
-        sleepSmallTimeout();
-        // Outside of your portfolio, do you have cash reserves for the next twelve months? -> ues
-        getWebDriver().findElement(By.id("answeryes")).click();
-        sleepSmallTimeout();
-        // What is the market value of your portfolio? -> 0-25 k$
-        getWebDriver().findElement(By.id("answer0_25K")).click();
-        sleepSmallTimeout();
-        // Do you have a brokerage account for this portfolio? -> No
-        getWebDriver().findElement(By.id("answerno")).click();
-        sleepSmallTimeout();
-        // Do you plan to add money to your portfolio? -> No
-        getWebDriver().findElement(By.id("answerno")).click();
-        sleepSmallTimeout();
-        // How often do you plan to reallocate your portfolio? ->  Quarterly or less frequently
-        getWebDriver().findElement(By.id("answerquarterly_less")).click();
-        sleepSmallTimeout();
-        // Your Tickeron allocation strategy is -> Ok
-        getWebDriver().findElement(By.cssSelector("a.btn")).click();
-        // Do you know the tickers or names of the positions in your portfolio? -> No
-        sleepSmallTimeout();
-        getWebDriver().findElement(By.id("answerno")).click();
-        // Do you need help finding the tickers or names of the positions for your portfolio? -> No
-        sleepSmallTimeout();
-        getWebDriver().findElement(By.id("answerno")).click();
+    public void basicPortfolio(String portfolioName) {
+        clickOnElementByCssSelector("selector");
+        // ..
+        // ..
+        // ..
     }
-
 
     @Then("I see Portfolio $portfolioName in portfolio list")
     @Given("I see Portfolio $portfolioName in portfolio list")

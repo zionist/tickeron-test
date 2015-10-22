@@ -1,7 +1,10 @@
 package com.tickeron.test.web.functional.steps;
 
+import com.tickeron.test.common.exceptions.PropertyNotFoundException;
+import org.apache.commons.lang3.StringUtils;
 import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
@@ -58,21 +61,50 @@ public class ParamsAndVariablesSteps extends Steps {
 
     @Given("Test params are: $table")
     public void setTestParams(ExamplesTable table) {
-        testParams.clear();
-        testParams.put("__dynamic__localdate_now", String.valueOf(LocalDate.now()));
+        getTestParamsStorage().clear();
+        getTestParamsStorage().put("__dynamic__localdate_now", String.valueOf(LocalDate.now()));
         for (int i = 0; i < table.getRowCount(); i++) {
             String name = table.getRow(i).get("name");
             String value = table.getRowAsParameters(i, false).valueAs("value", String.class);
-            testParams.put(name, value);
+            // Get value from app.properties file if value is like {value}
+            if (value.startsWith("{") && value.endsWith("}")) {
+                String valueParam = environment.getProperty(value, String.class, "");
+                if (valueParam.isEmpty()) throw new PropertyNotFoundException(valueParam);
+                getTestParamsStorage().put(name, valueParam);
+            }
+            getTestParamsStorage().put(name, value);
         }
     }
 
 
-    @Given("Set param $name value $value")
+    @Given("Set test param $name with value $value")
     public void setParamValue(String name,  String value) {
         getTestParamsStorage().put(name, value);
-
     }
+
+    @Given("Set test param $name value from property $name")
+    public void setParamValueFromPoperty(String name,  String propertyName) {
+        String property = environment.getProperty(propertyName, String.class, "");
+        if (property.isEmpty()) throw new PropertyNotFoundException(propertyName);
+        getTestParamsStorage().put(name, environment.getProperty(propertyName, String.class));
+    }
+
+    @Given("Set username and password from meta")
+    public void setUsernameAndPasswordFromMeta(@Named("username") String username, @Named("password") String password) {
+        //String usernameValue = environment.getProperty(username, String.class, "");
+        //if (usernameValue.isEmpty()) throw new PropertyNotFoundException(usernameValue);
+        //getTestParamsStorage().put("username", environment.getProperty(usernameValue, String.class));
+        //String passwordValue = environment.getProperty(password, String.class, "");
+        //if (passwordValue.isEmpty()) throw new PropertyNotFoundException(passwordValue);
+        //getTestParamsStorage().put("password", environment.getProperty(passwordValue, String.class));
+
+        System.out.println("#");
+        System.out.println(username);
+        System.out.println(password);
+        System.out.println("#");
+    }
+
+
 
 }
 
