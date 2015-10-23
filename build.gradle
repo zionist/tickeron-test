@@ -14,7 +14,7 @@ configurations {
 
 dependencies {
     // Groovy
-    //compile 'org.codehaus.groovy:groovy-all:2.3.6:indy'
+    runtime 'org.codehaus.groovy:groovy-all:2.4.5'
     // Logging
     compile 'org.slf4j:slf4j-api:1.7.7'
     runtime 'ch.qos.logback:logback-classic:1.1.2'
@@ -85,6 +85,12 @@ task testStories(type: JavaExec) {
         systemProperty 'meta.filter', meta
     } else {
         systemProperty 'meta.filter', ''
+    }
+    if (project.hasProperty('props')) {
+        String props = project.getProperties().get('props', '')
+        systemProperty 'tests.properties', props
+    } else {
+        systemProperty 'tests.properties.filter', ''
     }
 }
 

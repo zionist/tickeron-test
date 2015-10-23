@@ -86,7 +86,7 @@ public class ParamsAndVariablesSteps extends Steps {
     public void setParamValueFromPoperty(String name,  String propertyName) {
         String property = environment.getProperty(propertyName, String.class, "");
         if (property.isEmpty()) throw new PropertyNotFoundException(propertyName);
-        getTestParamsStorage().put(name, environment.getProperty(propertyName, String.class));
+        getTestParamsStorage().put(name, property);
     }
 
     @Given("Set username and password from meta")

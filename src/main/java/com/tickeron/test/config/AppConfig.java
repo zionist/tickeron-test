@@ -1,10 +1,12 @@
 package com.tickeron.test.config;
 
 import com.tickeron.test.common.exceptions.AssertionErrorWithContextParamsException;
+import com.tickeron.test.web.functional.CustomEmbedderMonitor;
 import com.tickeron.test.web.functional.FuncEmbedder;
 import com.tickeron.test.web.functional.steps.*;
 import com.tickeron.test.web.functional.steps.service.LoginSteps;
 import com.tickeron.test.web.functional.steps.service.PortfolioSteps;
+import org.jbehave.core.embedder.NullEmbedderMonitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +45,7 @@ public class AppConfig {
 
     @Bean
     public FuncEmbedder funcEmbedder() {
-        return new FuncEmbedder();
+        return new FuncEmbedder(new CustomEmbedderMonitor());
     }
 
     @Bean

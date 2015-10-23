@@ -5,6 +5,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.Optional;
+
 import static java.util.Arrays.asList;
 
 /**
@@ -21,8 +23,10 @@ public class Runner {
 
         String glob = System.getProperty("story.glob");
         String meta = System.getProperty("meta.filter");
+        String properties = System.getProperty("tests.properties");
 
         funcEmbedder.useMetaFilters(asList(meta.split(" ")));
+        funcEmbedder.setTestsProperties(Optional.ofNullable(properties));
         funcEmbedder.run(glob);
     }
 }

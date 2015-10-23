@@ -1,5 +1,10 @@
 Story: Login scenarios
 
+Narrative:
+In order to work with Login
+As a users with advisor, beginer, expert and intermidiates roles
+I want to use Login Form
+
 Meta:
 @web
 
@@ -12,13 +17,14 @@ Scenario:
 Login with email and password
 Meta:
 @name Login with email and password
+@basic
 Given Browser ready
 When I click on login link with css selector .cx-marketing-menu-login-button
 And I type %{username} into login form email input with css selector #email
 And I type %{password} into login form password input with css selector #password
 And I click on login button with css selector input.btn
 Then I see welcome div with css selector .jspPane > div:nth-child(1) contains:
-Welcome to Tickeron. Please1 select one of the options to the right; and we will teach you how to use the system and guide you through basic steps.
+Welcome to Tickeron. Please select one1 of the options to the right; and we will teach you how to use the system and guide you through basic steps.
 
 Scenario:
 Setup params. Set user to expert

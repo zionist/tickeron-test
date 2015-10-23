@@ -1,5 +1,6 @@
 package com.tickeron.test.web.functional;
 
+import com.tickeron.test.common.exceptions.PropertyNotFoundException;
 import com.tickeron.test.web.functional.steps.ParamsAndVariablesSteps;
 import com.tickeron.test.web.functional.steps.service.LoginSteps;
 import com.tickeron.test.web.functional.steps.service.PortfolioSteps;
@@ -8,9 +9,12 @@ import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
 import org.jbehave.core.embedder.Embedder;
 import org.jbehave.core.embedder.EmbedderControls;
+import org.jbehave.core.embedder.EmbedderMonitor;
 import org.jbehave.core.io.CodeLocations;
 import org.jbehave.core.io.LoadFromClasspath;
 import org.jbehave.core.reporters.CrossReference;
+import org.jbehave.core.reporters.HtmlOutput;
+import org.jbehave.core.reporters.NullStoryReporter;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
@@ -21,17 +25,19 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static org.jbehave.core.reporters.Format.ANSI_CONSOLE;
+import static org.jbehave.core.reporters.Format.CONSOLE;
+import static org.jbehave.core.reporters.Format.IDE_CONSOLE;
 
 public class FuncEmbedder extends Embedder {
 
@@ -48,34 +54,42 @@ public class FuncEmbedder extends Embedder {
     @Autowired
     private ParamsAndVariablesSteps paramsAndVariablesSteps;
 
+    public FuncEmbedder(EmbedderMonitor embedderMonitor) {
+        super(embedderMonitor);
+    }
+
+    @Autowired
+
     @Override
     public EmbedderControls embedderControls() {
         return new EmbedderControls()
                 .doIgnoreFailureInStories(false)
                 .doIgnoreFailureInView(true)
                 .doVerboseFailures(true)
-                .doGenerateViewAfterStories(true)
-                .doVerboseFiltering(true);
+                .doVerboseFiltering(false)
+                .doGenerateViewAfterStories(true);
     }
 
     @Override
     public Configuration configuration() {
         Class<? extends FuncEmbedder> embedderClass = this.getClass();
 
-        return new MostUsefulConfiguration()
-                .useStoryLoader(new LoadFromClasspath(embedderClass.getClassLoader()))
-                .useStoryReporterBuilder(new StoryReporterBuilder()
-                        .withCodeLocation(CodeLocations.codeLocationFromClass(embedderClass))
-                        .withDefaultFormats()
-                        .withFormats(ANSI_CONSOLE)
-                        .withCrossReference(new CrossReference()))
-                .useParameterConverters(new ParameterConverters()
-                        .addConverters(new ParameterConverters.DateConverter(new SimpleDateFormat("yyyy-MM-dd")))) // use custom date pattern
-                        //.useStepPatternParser(new RegexPrefixCapturingPatternParser(
-                        //        "%")) // use '%' instead of '$' to identify parameters
-                .useStepMonitor(new SilentStepMonitor());
+            return new MostUsefulConfiguration()
+                    .useStoryLoader(new LoadFromClasspath(embedderClass.getClassLoader()))
+                    .useStoryReporterBuilder(new StoryReporterBuilder()
+                            .withReporters(new CustomStoryReporter())
+                            .withCodeLocation(CodeLocations.codeLocationFromClass(embedderClass))
+                            //.withDefaultFormats()
+                            //.withFormats(ANSI_CONSOLE)
+                            .withFailureTrace(false)
+                            .withCrossReference(new CrossReference()))
+                    .useParameterConverters(new ParameterConverters()
+                            .addConverters(new ParameterConverters.DateConverter(new SimpleDateFormat("yyyy-MM-dd")))) // use custom date pattern
+                            //.useStepPatternParser(new RegexPrefixCapturingPatternParser(
+                            //        "%")) // use '%' instead of '$' to identify parameters
+                    .useStepMonitor(new SilentStepMonitor());
+        }
 
-    }
 
     @Override
     public InjectableStepsFactory stepsFactory() {
@@ -120,6 +134,23 @@ public class FuncEmbedder extends Embedder {
         Collections.sort(paths);
 
         return paths;
+    }
+    /*
+    Parse and set tests properties (for example username, password etc) from command line prompt
+     */
+    public void setTestsProperties(Optional<String> properties) {
+        properties.ifPresent((p) -> {
+            Iterator<String> propertiesIterator = Arrays.asList(p.split(",")).iterator();
+            while (propertiesIterator.hasNext()) {
+                String property = propertiesIterator.next();
+                String[]pairs = property.split("=");
+                String name = pairs[0];
+                String filePropertyName = pairs[1];
+                String propertyValue = env.getProperty(filePropertyName, String.class, "");
+                if (property.isEmpty()) throw new PropertyNotFoundException(filePropertyName);
+                paramsAndVariablesSteps.getTestParamsStorage().put(name, propertyValue);
+            }
+        } );
     }
 
     public void run(String storiesGlob) {

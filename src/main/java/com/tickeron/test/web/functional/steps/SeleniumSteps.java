@@ -44,7 +44,6 @@ public class SeleniumSteps {
 
         // Do not create new browser use old one. Just reset cookies
         if (webDriver.isPresent()) {
-            System.out.println("# browser ready");
             resetBrowser();
             getWebDriver().get(environment.getProperty("server.url"));
             return;
