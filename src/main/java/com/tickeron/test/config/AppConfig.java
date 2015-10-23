@@ -6,6 +6,7 @@ import com.tickeron.test.web.functional.FuncEmbedder;
 import com.tickeron.test.web.functional.steps.*;
 import com.tickeron.test.web.functional.steps.service.LoginSteps;
 import com.tickeron.test.web.functional.steps.service.PortfolioSteps;
+import com.tickeron.test.web.functional.steps.service.ServiceStepsBasic;
 import org.jbehave.core.embedder.NullEmbedderMonitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -46,6 +47,11 @@ public class AppConfig {
     @Bean
     public FuncEmbedder funcEmbedder() {
         return new FuncEmbedder(new CustomEmbedderMonitor());
+    }
+
+    @Bean
+    public ServiceStepsBasic serviceStepsBasic() {
+        return new ServiceStepsBasic();
     }
 
     @Bean

@@ -5,6 +5,7 @@ import com.tickeron.test.web.functional.steps.ParamsAndVariablesSteps;
 import com.tickeron.test.web.functional.steps.service.LoginSteps;
 import com.tickeron.test.web.functional.steps.service.PortfolioSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
+import com.tickeron.test.web.functional.steps.service.ServiceStepsBasic;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
 import org.jbehave.core.embedder.Embedder;
@@ -63,7 +64,7 @@ public class FuncEmbedder extends Embedder {
     @Override
     public EmbedderControls embedderControls() {
         return new EmbedderControls()
-                .doIgnoreFailureInStories(false)
+                .doIgnoreFailureInStories(true)
                 .doIgnoreFailureInView(true)
                 .doVerboseFailures(true)
                 .doVerboseFiltering(false)
@@ -77,10 +78,10 @@ public class FuncEmbedder extends Embedder {
             return new MostUsefulConfiguration()
                     .useStoryLoader(new LoadFromClasspath(embedderClass.getClassLoader()))
                     .useStoryReporterBuilder(new StoryReporterBuilder()
-                            .withReporters(new CustomStoryReporter())
+                            //.withReporters(new CustomStoryReporter())
                             .withCodeLocation(CodeLocations.codeLocationFromClass(embedderClass))
-                            //.withDefaultFormats()
-                            //.withFormats(ANSI_CONSOLE)
+                                    //.withDefaultFormats()
+                            .withFormats(ANSI_CONSOLE)
                             .withFailureTrace(false)
                             .withCrossReference(new CrossReference()))
                     .useParameterConverters(new ParameterConverters()

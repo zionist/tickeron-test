@@ -39,7 +39,9 @@ public class ServiceStepsBasic {
         return paramsAndVariablesSteps.substituteParamsAndVariables(input);
     }
 
-    protected void sleepBigTimeout() {
+    //@Given("I wait big timeout")
+    @When("I wait big timeout")
+    public void sleepBigTimeout() {
         try {
             Thread.sleep(environment.getProperty("sleep.timeout.big", Integer.class) * 1000);
         } catch (InterruptedException e) {
@@ -48,7 +50,9 @@ public class ServiceStepsBasic {
         }
     }
 
-    protected void sleepSmallTimeout() {
+    //@Given("I wait small timeout")
+    @When("I wait small timeout")
+    public void sleepSmallTimeout() {
         try {
             Thread.sleep(environment.getProperty("sleep.timeout.small", Integer.class) * 1000);
         } catch (InterruptedException e) {
@@ -62,6 +66,7 @@ public class ServiceStepsBasic {
     public void Wait(Integer milliseconds) throws InterruptedException {
         Thread.sleep(milliseconds);
     }
+
 
     @Given("Do nothing")
     @Then("Do nothing")
@@ -77,8 +82,12 @@ public class ServiceStepsBasic {
 
     @When("I click element with css selector $selector")
     public void clickOnElementByCssSelector(String selector) {
-        sleepSmallTimeout();
         getWebDriver().findElement(By.cssSelector(selector)).click();
+    }
+
+    @When("I click element with link text $linkText")
+    public void clickOnElementByLinkText(String linkText) {
+        getWebDriver().findElement(By.linkText(linkText)).click();
     }
 
     @When("I type $string into $description with css selector $selector")
@@ -87,15 +96,23 @@ public class ServiceStepsBasic {
         typeIntoElementByCssSelector(input, selector);
 
     }
+    @When("I will upload file with path $path using input element with css selector $selector")
+    public void uploadFileFromPathUsingCssSelector(String filePath, String selector) {
+        getWebDriver().findElement(By.cssSelector(selector)).sendKeys(filePath);
+    }
+
+    @When("I will upload file with path $path using input element with xpath $xpath")
+    public void uploadFileFromPathUsingLinkText(String filePath, String xpath) {
+        getWebDriver().findElement(By.xpath(xpath)).sendKeys(filePath);
+    }
 
     @When("I type $string into element with css selector $selector")
     public void typeIntoElementByCssSelector(String input, String selector) {
-        sleepBigTimeout();
         input = substituteParamsAndVariables(input);
         getWebDriver().findElement(By.cssSelector(selector)).sendKeys(input);
     }
 
-    @Then("I see $description with css selector $selector contains: $text")
+    @Then("I see $description with css selector $selector is: $text")
     // description only for humans
     public void checkElementContainsText(String desription, String selector, String text) {
         checkElementContainsText(selector, text);
@@ -103,7 +120,6 @@ public class ServiceStepsBasic {
 
     @Then("I see element with css selector $selector contains: $text")
     public void checkElementContainsText(String selector, String text) {
-        sleepBigTimeout();
         WebElement element = getWebDriver().findElement(By.cssSelector(selector));
         try {
             assertEquals(element.getText(), text);

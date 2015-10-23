@@ -1,5 +1,6 @@
 package com.tickeron.test.web.functional.steps;
 
+import com.tickeron.test.web.functional.steps.service.ServiceStepsBasic;
 import org.jbehave.core.annotations.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -39,7 +40,7 @@ public class SeleniumSteps {
 
 
     @Given("Browser ready")
-    public void setUpWebDriver() {
+    public void setUpWebDriver() throws InterruptedException {
         //String browser = paramsAndVariablesSteps.getTestParamsStorage().get("browser");
 
         // Do not create new browser use old one. Just reset cookies
@@ -54,6 +55,7 @@ public class SeleniumSteps {
         else if (browser.equals("Chrome")) setChromWebDriver();
         else throw new RuntimeException(String.format("Wrong browser name - %s", browser));
         getWebDriver().get(environment.getProperty("server.url"));
+        Thread.sleep(5);
     }
 
 
