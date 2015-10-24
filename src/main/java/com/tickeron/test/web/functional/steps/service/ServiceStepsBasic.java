@@ -1,6 +1,7 @@
 package com.tickeron.test.web.functional.steps.service;
 
 import com.tickeron.test.common.exceptions.AssertionErrorWithContextParamsException;
+import com.tickeron.test.common.exceptions.PropertyNotFoundException;
 import com.tickeron.test.web.functional.steps.ParamsAndVariablesSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
 import org.jbehave.core.annotations.Given;
@@ -11,8 +12,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 /**
@@ -96,14 +103,38 @@ public class ServiceStepsBasic {
         typeIntoElementByCssSelector(input, selector);
 
     }
-    @When("I will upload file with path $path using input element with css selector $selector")
-    public void uploadFileFromPathUsingCssSelector(String filePath, String selector) {
-        getWebDriver().findElement(By.cssSelector(selector)).sendKeys(filePath);
+
+    /*
+    Uploads file from classpath via selenium
+    Must be used for all files upload
+     */
+    public void uploadFileToWebElement(WebElement webElement, String fileName) {
+        String imageDirString = environment.getProperty("image.path", "");
+        if (imageDirString.isEmpty()) {
+            throw new PropertyNotFoundException("image.path");
+        }
+        File imageDir = null;
+        try {
+            imageDir = new ClassPathResource(imageDirString).getFile();
+            if (!imageDir.isDirectory()) fail(String.format("Image %s is not a directory", imageDirString));
+        } catch (IOException e) {
+            fail(String.format("Please check directory %s exists", imageDirString));
+        }
+        File imageFile  = new File(Paths.get(imageDir.getAbsolutePath(), fileName).toString());
+        if(!imageFile.exists()) {
+            fail(String.format("Please check file %s exists", imageFile.getAbsolutePath()));
+        }
+        webElement.sendKeys(imageFile.getAbsolutePath());
     }
 
-    @When("I will upload file with path $path using input element with xpath $xpath")
-    public void uploadFileFromPathUsingLinkText(String filePath, String xpath) {
-        getWebDriver().findElement(By.xpath(xpath)).sendKeys(filePath);
+    @When("I will upload file $fileName using input element with css selector $selector")
+    public void uploadFileFromPathUsingCssSelector(String fileName, String selector) {
+        uploadFileToWebElement(getWebDriver().findElement(By.cssSelector(selector)), fileName);
+    }
+
+    @When("I will upload file $fileName using input element with xpath $xpath")
+    public void uploadFileFromPathUsingLinkText(String fileName, String xpath) {
+        uploadFileToWebElement(getWebDriver().findElement(By.xpath(xpath)), fileName);
     }
 
     @When("I type $string into element with css selector $selector")

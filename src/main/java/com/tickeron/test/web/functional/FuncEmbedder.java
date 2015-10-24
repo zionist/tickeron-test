@@ -83,6 +83,7 @@ public class FuncEmbedder extends Embedder {
                                     //.withDefaultFormats()
                             .withFormats(ANSI_CONSOLE)
                             .withFailureTrace(false)
+                            .withFailureTraceCompression(true)
                             .withCrossReference(new CrossReference()))
                     .useParameterConverters(new ParameterConverters()
                             .addConverters(new ParameterConverters.DateConverter(new SimpleDateFormat("yyyy-MM-dd")))) // use custom date pattern

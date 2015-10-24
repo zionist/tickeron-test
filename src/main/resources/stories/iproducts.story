@@ -35,5 +35,7 @@ When I click on Create newsletter link with css selector .cx-btn-create-new
 And I wait big timeout
 Then I see page header is with css selector span.cx-iproduct-item:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > h1:nth-child(1) is: Create Newsletter
 When I type newsletter1 into newsletter titile input with css selector #Name
-And I will upload file with path /tmp/cat.jpeg using input element with xpath //input[@type='file']
+And I will upload file cat.jpeg using input element with xpath //input[@type='file']
+And I wait small timeout
 And I click on save button with css selector span.pull-right > button:nth-child(2)
+
