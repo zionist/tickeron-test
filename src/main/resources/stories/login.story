@@ -5,9 +5,6 @@ In order to work with Login
 As a users with advisor, beginer, expert and intermidiates roles
 I want to use Login Form
 
-Meta:
-@web
-
 Scenario:
 Setup params. Set user to advisor
 Meta:
@@ -52,12 +49,12 @@ GivenStories:
 Given Do nothing
 
 Scenario:
-Setup params. Set user to beginner
+Setup params. Set user to intermediate
 Given Set test param username value from property param.intermediate.username
 Given Set test param password value from property param.intermediate.password
 
 Scenario:
-Login with email and password as Beginner User
+Login with email and password as Intermediate User
 GivenStories:
     stories/login.story#{name:Login with email and password}
 Given Do nothing

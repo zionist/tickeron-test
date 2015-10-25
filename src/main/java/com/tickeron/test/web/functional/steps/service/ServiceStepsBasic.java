@@ -4,12 +4,11 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.tickeron.test.common.exceptions.AssertionErrorWithContextParamsException;
+import com.tickeron.test.common.exceptions.Formatter;
 import com.tickeron.test.common.exceptions.PropertyNotFoundException;
 import com.tickeron.test.web.functional.steps.ParamsAndVariablesSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
-import org.jbehave.core.annotations.Given;
-import org.jbehave.core.annotations.Then;
-import org.jbehave.core.annotations.When;
+import org.jbehave.core.annotations.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -58,7 +57,7 @@ public class ServiceStepsBasic {
         return paramsAndVariablesSteps.substituteParamsAndVariables(input);
     }
 
-    //@Given("I wait big timeout")
+    @Given("I wait big timeout")
     @When("I wait big timeout")
     public void sleepBigTimeout() {
         try {
@@ -69,7 +68,7 @@ public class ServiceStepsBasic {
         }
     }
 
-    //@Given("I wait small timeout")
+    @Given("I wait small timeout")
     @When("I wait small timeout")
     public void sleepSmallTimeout() {
         try {
@@ -89,32 +88,7 @@ public class ServiceStepsBasic {
 
     @Given("Do nothing")
     @Then("Do nothing")
-    public void doNothing() throws NoSuchAlgorithmException, IOException {
-        MessageDigest messageDigest1 = MessageDigest.getInstance("MD5");
-        InputStream inputStream1 = new FileInputStream("/tmp/downloaded");
-        byte[] dataBytes1 = new byte[1024];
-        int read1 = 0;
-        while ((read1 = inputStream1.read(dataBytes1)) != -1) {
-            messageDigest1.update(dataBytes1, 0, read1);
-
-        };
-        //byte[] digest1 = messageDigest1.digest();
-        String md5 = new BigInteger(1, messageDigest1.digest()).toString(16);
-        System.out.println(md5);
-
-        messageDigest1.reset();
-        InputStream inputStream2 = new FileInputStream("/tmp/downloaded");
-        byte[] dataBytes2 = new byte[1024];
-        int read2 = 0;
-        while ((read2 = inputStream2.read(dataBytes2)) != -1) {
-            messageDigest1.update(dataBytes2, 0, read2);
-
-        };
-        //byte[] digest1 = messageDigest1.digest();
-        String md52 = new BigInteger(1, messageDigest1.digest()).toString(16);
-        System.out.println(md52);
-
-
+    public void doNothing() {
 
     }
 

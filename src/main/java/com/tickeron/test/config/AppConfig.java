@@ -2,6 +2,7 @@ package com.tickeron.test.config;
 
 import com.tickeron.test.common.exceptions.AssertionErrorWithContextParamsException;
 import com.tickeron.test.web.functional.CustomEmbedderMonitor;
+import com.tickeron.test.web.functional.CustomStoryReporter;
 import com.tickeron.test.web.functional.FuncEmbedder;
 import com.tickeron.test.web.functional.steps.*;
 import com.tickeron.test.web.functional.steps.service.LoginSteps;
@@ -59,6 +60,8 @@ public class AppConfig {
         return new ParamsAndVariablesSteps();
     }
 
+    @Bean
+    public CustomStoryReporter customStoryReporter() { return new CustomStoryReporter(); }
 
 
 }

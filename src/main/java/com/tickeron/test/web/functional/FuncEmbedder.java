@@ -52,8 +52,12 @@ public class FuncEmbedder extends Embedder {
     private PortfolioSteps portfolioSteps;
     @Autowired
     private LoginSteps loginSteps;
+
     @Autowired
     private ParamsAndVariablesSteps paramsAndVariablesSteps;
+
+    @Autowired
+    private CustomStoryReporter customStoryReporter;
 
     public FuncEmbedder(EmbedderMonitor embedderMonitor) {
         super(embedderMonitor);
@@ -78,7 +82,7 @@ public class FuncEmbedder extends Embedder {
             return new MostUsefulConfiguration()
                     .useStoryLoader(new LoadFromClasspath(embedderClass.getClassLoader()))
                     .useStoryReporterBuilder(new StoryReporterBuilder()
-                            //.withReporters(new CustomStoryReporter())
+                            .withReporters(customStoryReporter)
                             .withCodeLocation(CodeLocations.codeLocationFromClass(embedderClass))
                                     //.withDefaultFormats()
                             .withFormats(ANSI_CONSOLE)

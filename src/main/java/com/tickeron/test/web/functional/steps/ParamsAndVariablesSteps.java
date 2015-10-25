@@ -2,7 +2,6 @@ package com.tickeron.test.web.functional.steps;
 
 import com.tickeron.test.common.exceptions.PropertyNotFoundException;
 import org.apache.commons.lang3.StringUtils;
-import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
