@@ -55,32 +55,33 @@ And I see second page header with css selector .cx-subtitle is: newsletter1_edit
 When I download newsletter file from <a> element with css selector .col-sm-offset-3 > div:nth-child(1) > div:nth-child(1) > a:nth-child(1)
 Then Downloaded file is cat2.jpeg
 !-- Press cancel button
-When I click on cancel button with css selector button.btn-default
+!-- When I click on cancel button with css selector button.btn-default
+When I click on cancel button with css selector span.pull-right > button:nth-child(1)
 And I wait big timeout
 
 Scenario:
 Remove newsletter
 Meta:
-@Remove newsletter
+@name Remove newsletter
 When I click element with css selector button.cx-right-nav-btn:nth-child(2)
 And I wait small timeout
 And I click on "Yes" button in confirmation dialog window with css selector button.ng-binding:nth-child(1)
 And I wait big timeout
 Then I see newsletter page header with css selector h1.ng-binding is: Newsletters
 And I see newsletters page list with css selector span.ng-binding is: NO DATA FOUND
-
-!-- Scenario:
-!-- Setup params. Set user to expert
-!-- Meta:
-!-- Given Set test param username value from property param.expert.username
-!-- Given Set test param password value from property param.expert.password
-
-!-- Scenario: Work with newsletters as expert user
-!-- Meta:
-!-- @name Work with newsletter as expert user
-!-- GivenStories:
-!--    stories/iproducts.story#{name:Create newsletter},
-!--    stories/iproducts.story#{name:Edit newsletter},
-!--    stories/iproducts.story#{name:Remove newsletter}
 Given Do nothing
+
+Scenario:
+Setup params. Set user to expert
+Meta:
+Given Set test param username value from property param.expert.username
+Given Set test param password value from property param.expert.password
+
+Scenario: Work with newsletters as expert user
+GivenStories:
+    stories/iproducts.story#{name:Create newsletter},
+    stories/iproducts.story#{name:Edit newsletter},
+    stories/iproducts.story#{name:Remove newsletter}
+Given Do nothing
+
 
