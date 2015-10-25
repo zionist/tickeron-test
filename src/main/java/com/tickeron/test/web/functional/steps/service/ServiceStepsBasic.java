@@ -1,5 +1,8 @@
 package com.tickeron.test.web.functional.steps.service;
 
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.tickeron.test.common.exceptions.AssertionErrorWithContextParamsException;
 import com.tickeron.test.common.exceptions.PropertyNotFoundException;
 import com.tickeron.test.web.functional.steps.ParamsAndVariablesSteps;
@@ -16,10 +19,17 @@ import org.springframework.core.io.ClassPathResource;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.math.BigInteger;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 /**
@@ -28,6 +38,8 @@ import java.util.Optional;
  * This class can have child classes for logical units (Login, Portfolio, User Management, Community ... etc)
  */
 public class ServiceStepsBasic {
+
+    private Optional<String> md5String = Optional.empty();
 
     @Autowired
     Environment environment;
@@ -77,8 +89,33 @@ public class ServiceStepsBasic {
 
     @Given("Do nothing")
     @Then("Do nothing")
-    public void doNothing() {
-        //System.out.println("# Do nothing");
+    public void doNothing() throws NoSuchAlgorithmException, IOException {
+        MessageDigest messageDigest1 = MessageDigest.getInstance("MD5");
+        InputStream inputStream1 = new FileInputStream("/tmp/downloaded");
+        byte[] dataBytes1 = new byte[1024];
+        int read1 = 0;
+        while ((read1 = inputStream1.read(dataBytes1)) != -1) {
+            messageDigest1.update(dataBytes1, 0, read1);
+
+        };
+        //byte[] digest1 = messageDigest1.digest();
+        String md5 = new BigInteger(1, messageDigest1.digest()).toString(16);
+        System.out.println(md5);
+
+        messageDigest1.reset();
+        InputStream inputStream2 = new FileInputStream("/tmp/downloaded");
+        byte[] dataBytes2 = new byte[1024];
+        int read2 = 0;
+        while ((read2 = inputStream2.read(dataBytes2)) != -1) {
+            messageDigest1.update(dataBytes2, 0, read2);
+
+        };
+        //byte[] digest1 = messageDigest1.digest();
+        String md52 = new BigInteger(1, messageDigest1.digest()).toString(16);
+        System.out.println(md52);
+
+
+
     }
 
     @When("I click on $description with css selector $selector")
@@ -104,11 +141,7 @@ public class ServiceStepsBasic {
 
     }
 
-    /*
-    Uploads file from classpath via selenium
-    Must be used for all files upload
-     */
-    public void uploadFileToWebElement(WebElement webElement, String fileName) {
+    private File getLocalFile(String fileName) {
         String imageDirString = environment.getProperty("image.path", "");
         if (imageDirString.isEmpty()) {
             throw new PropertyNotFoundException("image.path");
@@ -124,7 +157,101 @@ public class ServiceStepsBasic {
         if(!imageFile.exists()) {
             fail(String.format("Please check file %s exists", imageFile.getAbsolutePath()));
         }
-        webElement.sendKeys(imageFile.getAbsolutePath());
+        return imageFile;
+    }
+
+
+    /**
+     * Uploads file from classpath via selenium
+     * Must be used for all files upload
+     * @param webElement
+     * @param fileName
+     */
+    public void uploadFileToWebElement(WebElement webElement, String fileName) {
+        webElement.sendKeys(getLocalFile(fileName).getAbsolutePath());
+    }
+
+
+    /**
+     * Download via via okhttp client
+     * Count new digestString and save it to the class property
+     * @param url file url
+     */
+
+    public void downloadFile(String url) {
+        md5String = Optional.empty();
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        CookieManager cookieManager = new CookieManager();
+
+        // Let's accept all cookies
+        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+        okHttpClient.setCookieHandler(cookieManager);
+
+        Request.Builder builder = new Request.Builder();
+        builder.url(url);
+
+        /*
+        // Copy all cookies from browser.
+        for(org.openqa.selenium.Cookie cookie : getWebDriver().manage().getCookies()) {
+            builder.addHeader("Cookie", cookie.getValue());
+        }
+        // Set user agent same as in browser
+        builder.removeHeader("User-Agent");
+        builder.addHeader("User-Agent", environment.getProperty("user.agent"));
+        */
+
+        Request request = builder.build();
+        try {
+            Response response = okHttpClient.newCall(request).execute();
+            InputStream inputStream = response.body().byteStream();
+            md5String = Optional.of(MD5StringFromInputStream(inputStream));
+        } catch (IOException e ) {
+            fail(String.format("Can't download file %s", url));
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Counts MD5 human readable string from InputStream object
+     * @param inputStream
+     * @return human readable MD5 string
+     */
+    private String MD5StringFromInputStream(InputStream inputStream) {
+        MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.reset();
+            byte[] dataBytes = new byte[1024];
+            int read;
+            while ((read = inputStream.read(dataBytes)) != -1) {
+                messageDigest.update(dataBytes, 0, read);
+
+            }
+        } catch (NoSuchAlgorithmException | IOException e) {
+            fail("Can't read from input stream");
+            e.printStackTrace();
+            return "";
+        }
+        return new BigInteger(1, messageDigest.digest()).toString(16);
+    }
+
+
+    @Then("Downloaded file is $fileName")
+    public void compareDownloadedFileChecksumWithLocalFile(String fileName) throws IOException, NoSuchAlgorithmException {
+        InputStream inputStream = new FileInputStream(getLocalFile(fileName).getAbsolutePath());
+        assertEquals(String.format("Downloaded file is not %s. Please see md5 checksum", fileName),
+                 MD5StringFromInputStream(inputStream), md5String.get());
+        md5String = Optional.empty();
+
+    }
+
+
+    @When("I download $description file from <a> element with css selector $selector")
+    public void downloadFileFromAElementWithCssSelector(String description, String selector) {
+        WebElement element = getWebDriver().findElement(By.cssSelector(selector));
+        downloadFile(element.getAttribute("href"));
     }
 
     @When("I will upload file $fileName using input element with css selector $selector")
@@ -132,7 +259,7 @@ public class ServiceStepsBasic {
         uploadFileToWebElement(getWebDriver().findElement(By.cssSelector(selector)), fileName);
     }
 
-    @When("I will upload file $fileName using input element with xpath $xpath")
+    @When("I upload file $fileName using input element with xpath $xpath")
     public void uploadFileFromPathUsingLinkText(String fileName, String xpath) {
         uploadFileToWebElement(getWebDriver().findElement(By.xpath(xpath)), fileName);
     }
@@ -140,20 +267,21 @@ public class ServiceStepsBasic {
     @When("I type $string into element with css selector $selector")
     public void typeIntoElementByCssSelector(String input, String selector) {
         input = substituteParamsAndVariables(input);
+        getWebDriver().findElement(By.cssSelector(selector)).clear();
         getWebDriver().findElement(By.cssSelector(selector)).sendKeys(input);
     }
 
     @Then("I see $description with css selector $selector is: $text")
     // description only for humans
     public void checkElementContainsText(String desription, String selector, String text) {
-        checkElementContainsText(selector, text);
+        checkElementTextIs(selector, text);
     }
 
     @Then("I see element with css selector $selector contains: $text")
-    public void checkElementContainsText(String selector, String text) {
+    public void checkElementTextIs(String selector, String text) {
         WebElement element = getWebDriver().findElement(By.cssSelector(selector));
         try {
-            assertEquals(element.getText(), text);
+            assertEquals(text, element.getText());
         } catch (AssertionError e) {
             throw new AssertionErrorWithContextParamsException(e, paramsAndVariablesSteps.getTestParamsStorage());
         }

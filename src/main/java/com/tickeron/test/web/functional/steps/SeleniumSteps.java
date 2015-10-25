@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
@@ -30,12 +31,16 @@ public class SeleniumSteps {
 
 
     private void setFireFoxWebDriver() {
+       FirefoxProfile profile = new FirefoxProfile();
+       //profile.setPreference("general.useragent.override", environment.getProperty("user.agent"));
+       //webDriver = Optional.of(new FirefoxDriver(profile));
        webDriver = Optional.of(new FirefoxDriver());
     }
 
     private void setChromWebDriver() {
         System.setProperty("webdriver.chrome.driver", environment.getProperty("chrome.driver"));
         webDriver = Optional.of(new ChromeDriver());
+
     }
 
 

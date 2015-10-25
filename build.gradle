@@ -21,7 +21,6 @@ dependencies {
     // Spring
     compile 'org.springframework:spring-context:4.0.6.RELEASE'
     compile 'org.springframework:spring-tx:4.0.6.RELEASE'
-    //compile 'org.springframework:spring-jdbc:4.0.6.RELEASE'
     // Junit
     compile 'junit:junit:4.4'
     // Jbehave
@@ -34,6 +33,8 @@ dependencies {
     compile group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version:seleniumVersion
     compile group: 'org.seleniumhq.selenium', name: 'selenium-api', version:seleniumVersion
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version:seleniumVersion
+    // Ok http client
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
 
     // Gson
     //compile 'com.google.code.gson:gson:2.3.1'
