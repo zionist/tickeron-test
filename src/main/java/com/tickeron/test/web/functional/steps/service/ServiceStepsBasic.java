@@ -174,8 +174,9 @@ public class ServiceStepsBasic {
      * @param webElement
      * @param fileName
      */
-    public void uploadFileToWebElement(WebElement webElement, String fileName) {
+    public void uploadFileToWebElement(WebElement webElement, String fileName) throws InterruptedException {
         webElement.sendKeys(getLocalFile(fileName).getAbsolutePath());
+        Thread.sleep(environment.getProperty("sleep.timeout.small", Integer.class) * 1000);
     }
 
 
@@ -205,7 +206,7 @@ public class ServiceStepsBasic {
         // Set user agent same as in browser
         //builder.removeHeader("User-Agent");
         //builder.addHeader("User-Agent", environment.getProperty("user.agent"));
-        builder = builder.header("test", "testValue");
+        //builder = builder.header("test", "testValue");
         Request request = builder.build();
         try {
             Response response = okHttpClient.newCall(request).execute();
@@ -260,12 +261,12 @@ public class ServiceStepsBasic {
     }
 
     @When("I will upload file $fileName using input element with css selector $selector")
-    public void uploadFileFromPathUsingCssSelector(String fileName, String selector) {
+    public void uploadFileFromPathUsingCssSelector(String fileName, String selector) throws InterruptedException {
         uploadFileToWebElement(getWebDriver().findElement(By.cssSelector(selector)), fileName);
     }
 
     @When("I upload file $fileName using input element with xpath $xpath")
-    public void uploadFileFromPathUsingLinkText(String fileName, String xpath) {
+    public void uploadFileFromPathUsingLinkText(String fileName, String xpath) throws InterruptedException {
         uploadFileToWebElement(getWebDriver().findElement(By.xpath(xpath)), fileName);
     }
 
