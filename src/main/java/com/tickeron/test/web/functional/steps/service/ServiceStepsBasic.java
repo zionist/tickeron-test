@@ -1,5 +1,6 @@
 package com.tickeron.test.web.functional.steps.service;
 
+import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -12,6 +13,7 @@ import org.jbehave.core.annotations.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -44,6 +46,7 @@ import java.util.function.Function;
 public class ServiceStepsBasic {
 
     private Optional<String> md5String = Optional.empty();
+    private Optional<Actions> actions = Optional.empty();
 
     @Autowired
     Environment environment;
@@ -193,18 +196,16 @@ public class ServiceStepsBasic {
         okHttpClient.setCookieHandler(cookieManager);
 
         Request.Builder builder = new Request.Builder();
-        builder.url(url);
+        builder = builder.url(url);
 
-        /*
         // Copy all cookies from browser.
         for(org.openqa.selenium.Cookie cookie : getWebDriver().manage().getCookies()) {
-            builder.addHeader("Cookie", cookie.getValue());
+            builder = builder.addHeader("Cookie", String.format("%s=%s", cookie.getName(), cookie.getValue()));
         }
         // Set user agent same as in browser
-        builder.removeHeader("User-Agent");
-        builder.addHeader("User-Agent", environment.getProperty("user.agent"));
-        */
-
+        //builder.removeHeader("User-Agent");
+        //builder.addHeader("User-Agent", environment.getProperty("user.agent"));
+        builder = builder.header("test", "testValue");
         Request request = builder.build();
         try {
             Response response = okHttpClient.newCall(request).execute();
@@ -290,4 +291,45 @@ public class ServiceStepsBasic {
             throw new AssertionErrorWithContextParamsException(e, paramsAndVariablesSteps.getTestParamsStorage());
         }
     }
+
+    public void test() throws InterruptedException {
+        Actions actions = new Actions(getWebDriver());
+        //actions.click(getWebDriver().findElement(By.cssSelector("#filterInput")));
+        Thread.sleep(1000);
+        actions.moveToElement(getWebDriver().findElement(By.cssSelector("#chb34108")));
+        actions.click(getWebDriver().findElement(By.cssSelector("#chb34108")));
+        actions.perform();
+
+    }
+    @When("I start recording action")
+    public void startActionRecord() throws InterruptedException {
+        //actions.click(getWebDriver().findElement(By.cssSelector("#filterInput")));
+        //actions.moveToElement(getWebDriver().findElement(By.cssSelector("#chb34108")));
+        //actions.click(getWebDriver().findElement(By.cssSelector("#chb34108")));
+        //actions.perform();
+        Thread.sleep(1000);
+        actions = Optional.of(new Actions(getWebDriver()));
+
+    }
+    @When("I will move in action to $description element with css selector $selector")
+    public void ActionsMoveToElemetByCssSelector(String description, String selector) {
+        actions.ifPresent(a -> {
+            a.moveToElement(getWebDriver().findElement(By.cssSelector(selector)));
+        });
+    }
+
+    @When("I will click in action on $description element with css selector $selector")
+    public void ActionsClickOnElementByCssSelector(String description, String selector) {
+        actions.ifPresent(a -> {
+            a.click(getWebDriver().findElement(By.cssSelector(selector)));
+        });
+    }
+
+    @Then("I perform previously recorded action")
+    public void performAction() {
+        actions.ifPresent(a -> {
+            a.perform();
+        });
+    }
+
 }

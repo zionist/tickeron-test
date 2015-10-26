@@ -2,10 +2,8 @@ package com.tickeron.test.web.functional;
 
 import com.tickeron.test.common.exceptions.PropertyNotFoundException;
 import com.tickeron.test.web.functional.steps.ParamsAndVariablesSteps;
-import com.tickeron.test.web.functional.steps.service.LoginSteps;
 import com.tickeron.test.web.functional.steps.service.PortfolioSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
-import com.tickeron.test.web.functional.steps.service.ServiceStepsBasic;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
 import org.jbehave.core.embedder.Embedder;
@@ -14,8 +12,6 @@ import org.jbehave.core.embedder.EmbedderMonitor;
 import org.jbehave.core.io.CodeLocations;
 import org.jbehave.core.io.LoadFromClasspath;
 import org.jbehave.core.reporters.CrossReference;
-import org.jbehave.core.reporters.HtmlOutput;
-import org.jbehave.core.reporters.NullStoryReporter;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
@@ -26,9 +22,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
@@ -37,8 +31,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.jbehave.core.reporters.Format.ANSI_CONSOLE;
-import static org.jbehave.core.reporters.Format.CONSOLE;
-import static org.jbehave.core.reporters.Format.IDE_CONSOLE;
 
 public class FuncEmbedder extends Embedder {
 
@@ -50,8 +42,6 @@ public class FuncEmbedder extends Embedder {
     //private ServiceStepsBasic serviceSteps;
     @Autowired
     private PortfolioSteps portfolioSteps;
-    @Autowired
-    private LoginSteps loginSteps;
 
     @Autowired
     private ParamsAndVariablesSteps paramsAndVariablesSteps;
@@ -99,7 +89,7 @@ public class FuncEmbedder extends Embedder {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), portfolioSteps, loginSteps, seleniumSteps, paramsAndVariablesSteps);
+        return new InstanceStepsFactory(configuration(), portfolioSteps, seleniumSteps, paramsAndVariablesSteps);
         //return new InstanceStepsFactory(configuration());
     }
 
@@ -125,7 +115,8 @@ public class FuncEmbedder extends Embedder {
 
         PathMatcher matcher =
                 FileSystems.getDefault().getPathMatcher("glob:" + storiesGlob);
-
+        //File[] listFiles = storiesDir.listFiles();
+        //Arrays.sort(listFiles);
         for (File file : storiesDir.listFiles()) {
             String filename = file.getName();
             Path p =  Paths.get(testStoriesPath, filename);

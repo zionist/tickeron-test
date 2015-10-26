@@ -1,33 +1,17 @@
-Story: Iproducts
-
-Scenario:
-Setup params. Set user to advisor
 Meta:
-Given Set test param username value from property param.advisor.username
-Given Set test param password value from property param.advisor.password
 
-Scenario:
-Create newsletter
-Meta:
-@name Create newsletter
-GivenStories:
-    stories/login.story#{name:Login with email and password}
-!-- Open newsletter
-When I click on iproducts menu tab with css selector div.main_menu_item:nth-child(4) > div:nth-child(1) > a:nth-child(1)
-When I click on newsletters menu item with css selector .open > ul:nth-child(3) > li:nth-child(1) > a:nth-child(2)
-And I wait until service ready
-Then I see newsletter page header with css selector h1.ng-binding is: Newsletters
-And I see newsletters page list with css selector span.ng-binding is: NO DATA FOUND
-!-- Create newsletter
-When I click on Create newsletter link with css selector .cx-btn-create-new
-And I wait until service ready
-Then I see page header with css selector span.cx-iproduct-item:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > h1:nth-child(1) is: Create Newsletter
-When I type newsletter1 into newsletter title input with css selector #Name
-And I upload file cat.jpeg using input element with xpath //input[@type='file']
-And I wait until service ready
-And I click on save button with css selector span.pull-right > button:nth-child(2)
-And I wait until service ready
-Then I see page header with css selector .cx-subtitle is: newsletter1
+Narrative:
+As a user
+I want to perform an action
+So that I can achieve a business goal
+
+
+
+
+
+
+
+
 
 Scenario:
 Edit newsletter
@@ -79,9 +63,9 @@ Given Set test param password value from property param.expert.password
 
 Scenario: Work with newsletters as expert user
 GivenStories:
-    stories/iproducts.story#{name:Create newsletter},
-    stories/iproducts.story#{name:Edit newsletter},
-    stories/iproducts.story#{name:Remove newsletter}
+    stories/02_iproducts.story#{name:Create newsletter},
+    stories/02_iproducts.story#{name:Edit newsletter},
+    stories/02_iproducts.story#{name:Remove newsletter}
 Given Do nothing
 
 

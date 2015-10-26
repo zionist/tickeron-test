@@ -3,6 +3,7 @@ package tests;
 import com.tickeron.test.config.AppConfig;
 import com.tickeron.test.web.functional.FuncEmbedder;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
+import com.tickeron.test.web.functional.steps.service.ServiceStepsBasic;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -25,4 +26,5 @@ public class TestBase extends TestCase {
         System.out.println(seleniumSteps.executeJs("return window.angular.version;"));
 
     }
+
 }

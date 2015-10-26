@@ -5,7 +5,6 @@ import com.tickeron.test.web.functional.CustomEmbedderMonitor;
 import com.tickeron.test.web.functional.CustomStoryReporter;
 import com.tickeron.test.web.functional.FuncEmbedder;
 import com.tickeron.test.web.functional.steps.*;
-import com.tickeron.test.web.functional.steps.service.LoginSteps;
 import com.tickeron.test.web.functional.steps.service.PortfolioSteps;
 import com.tickeron.test.web.functional.steps.service.ServiceStepsBasic;
 import org.jbehave.core.embedder.NullEmbedderMonitor;
@@ -30,10 +29,6 @@ public class AppConfig {
     //    return new ServiceStepsBasic();
     //}
 
-    @Bean
-    public LoginSteps loginSteps() {
-        return new LoginSteps();
-    }
 
     @Bean
     PortfolioSteps portfolioSteps() {
