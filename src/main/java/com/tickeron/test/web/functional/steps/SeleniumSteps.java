@@ -3,6 +3,7 @@ package com.tickeron.test.web.functional.steps;
 import com.tickeron.test.web.functional.steps.service.ServiceStepsBasic;
 import org.jbehave.core.annotations.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -35,6 +36,18 @@ public class SeleniumSteps {
        //profile.setPreference("general.useragent.override", environment.getProperty("user.agent"));
        //webDriver = Optional.of(new FirefoxDriver(profile));
        webDriver = Optional.of(new FirefoxDriver());
+       JavascriptExecutor js;
+    }
+
+    public Optional<Object> executeJs(String jsString) {
+        webDriver.orElseThrow(() -> new RuntimeException("Now web driver configured"));
+        if (webDriver.get() instanceof JavascriptExecutor) {
+            JavascriptExecutor js;
+            js = (JavascriptExecutor) webDriver.get();
+            //js.executeScript("return document.getElementById('someId');");
+            return Optional.ofNullable(js.executeScript(jsString));
+        }
+        return Optional.empty();
     }
 
     private void setChromWebDriver() {

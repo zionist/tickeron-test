@@ -12,6 +12,9 @@ import org.jbehave.core.annotations.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
@@ -30,6 +33,8 @@ import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Created by slaviann on 11.09.15.
@@ -56,6 +61,31 @@ public class ServiceStepsBasic {
     protected String substituteParamsAndVariables(String input) {
         return paramsAndVariablesSteps.substituteParamsAndVariables(input);
     }
+
+    @When("I wait until service ready")
+    public void waitUntilBrowserReady() throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(getWebDriver(), environment.getProperty("wait.timeout.big", Integer.class));
+        Thread.sleep(environment.getProperty("wait.timeout.small", Integer.class) * 1000);
+        wait.until(
+                new ExpectedCondition<Boolean>() {
+                    String currentValue = "";
+
+                    @Override
+                    public Boolean apply(WebDriver driver) {
+                        currentValue = driver.findElement(By.cssSelector("html")).getAttribute("class");
+                        return !currentValue.contains("nprogress-busy");
+                    }
+
+                    @Override
+                    public String toString() {
+                        return String.format("attribute %s to be \"%s\". Current attribute values : \"%s\"", "class", "nprogress-busy", currentValue);
+                }
+            }
+
+
+        );
+    }
+
 
     @Given("I wait big timeout")
     @When("I wait big timeout")

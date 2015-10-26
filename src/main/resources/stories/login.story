@@ -7,9 +7,8 @@ I want to use Login Form
 
 Scenario:
 Setup params. Set user to advisor
-Meta:
 Given Set test param username value from property param.advisor.username
-Given Set test param password value from property param.advisor.password
+And Set test param password value from property param.advisor.password
 
 Scenario:
 Login with email and password
@@ -22,7 +21,7 @@ And I wait small timeout
 And I type %{username} into login form email input with css selector #email
 And I type %{password} into login form password input with css selector #password
 And I click on login button with css selector input.btn
-And I wait big timeout
+And I wait until service ready
 Then I see welcome div with css selector .jspPane > div:nth-child(1) is:
 Welcome to Tickeron. Please select one of the options to the right; and we will teach you how to use the system and guide you through basic steps.
 
