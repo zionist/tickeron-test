@@ -30,11 +30,11 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static org.jbehave.core.reporters.Format.ANSI_CONSOLE;
-import static org.jbehave.core.reporters.Format.STATS;
-import static org.jbehave.core.reporters.Format.TXT;
+import static org.jbehave.core.reporters.Format.*;
 
 public class FuncEmbedder extends Embedder {
+
+    public Boolean failed = false;
 
     @Autowired
     private Environment env;
@@ -55,7 +55,13 @@ public class FuncEmbedder extends Embedder {
         super(embedderMonitor);
     }
 
-    @Autowired
+    /**
+     * Set global story run is failed
+     */
+    public void setFailed() {
+        failed = true;
+    }
+
 
     @Override
     public EmbedderControls embedderControls() {
@@ -77,7 +83,7 @@ public class FuncEmbedder extends Embedder {
                             .withReporters(customStoryReporter)
                             .withCodeLocation(CodeLocations.codeLocationFromClass(embedderClass))
                                     //.withDefaultFormats()
-                            .withFormats(ANSI_CONSOLE, TXT, STATS)
+                            .withFormats(ANSI_CONSOLE, TXT, STATS, XML)
                             .withFailureTrace(false)
                             .withFailureTraceCompression(true)
                             .withCrossReference(new CrossReference()))
@@ -153,14 +159,15 @@ public class FuncEmbedder extends Embedder {
     }
 
     public void run(String storiesGlob) {
-        //Integer exit_code = 0;
-        //try {
+        Integer exit_code = 0;
+        try {
             this.runStoriesAsPaths(getStories(storiesGlob));
-        //} catch (Exception e) {
-        //    exit_code = 1;
-        //}
+        } catch (Exception e) {
+            exit_code = 1;
+        }
+        if (this.failed) exit_code = 1;
         // May have client threads in background
-        //System.exit(exit_code);
+        System.exit(exit_code);
     }
 
 }

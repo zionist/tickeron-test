@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CustomStoryReporter  extends NullStoryReporter implements StoryReporter {
 
     @Autowired
+    FuncEmbedder funcEmbedder;
+
+    @Autowired
     private ParamsAndVariablesSteps paramsAndVariablesSteps;
 
     @Override
@@ -19,7 +22,11 @@ public class CustomStoryReporter  extends NullStoryReporter implements StoryRepo
     }
 
     @Override
+    /**
+     * TODO: refactor
+     */
     public void failed(String step, Throwable cause) {
+        funcEmbedder.setFailed();
     }
 
     @Override
@@ -27,6 +34,9 @@ public class CustomStoryReporter  extends NullStoryReporter implements StoryRepo
     }
 
     @Override
+    /**
+     * TODO: refactor
+     */
     public void beforeScenario(String title) {
         super.beforeScenario(title);
         System.out.println(String.format("Scenario params: %s", paramsAndVariablesSteps.getTestParamsStorage()));

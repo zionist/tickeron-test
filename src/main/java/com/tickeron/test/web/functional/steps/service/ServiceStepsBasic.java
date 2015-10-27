@@ -58,7 +58,7 @@ public class ServiceStepsBasic {
     @Autowired
     ParamsAndVariablesSteps paramsAndVariablesSteps;
 
-    public WebDriver getWebDriver() {
+    protected WebDriver getWebDriver() {
         return seleniumSteps.getWebDriver();
     }
 
@@ -129,23 +129,15 @@ public class ServiceStepsBasic {
     @When("I click on $description with css selector $selector")
     // description only for humans
     public void clickOnElementByCssSelector(String description, String selector) {
-        clickOnElementByCssSelector(selector);
-    }
-
-    public void clickOnElementByCssSelector(String selector) {
         getWebDriver().findElement(By.cssSelector(selector)).click();
-    }
-
-    @When("I click element with link text $linkText")
-    public void clickOnElementByLinkText(String linkText) {
-        getWebDriver().findElement(By.linkText(linkText)).click();
     }
 
     @When("I type $string into $description with css selector $selector")
     // description only for humans
     public void typeIntoElementByCssSelector(String input, String description, String selector) {
-        typeIntoElementByCssSelector(input, selector);
-
+        input = substituteParamsAndVariables(input);
+        getWebDriver().findElement(By.cssSelector(selector)).clear();
+        getWebDriver().findElement(By.cssSelector(selector)).sendKeys(input);
     }
 
     private File getLocalFile(String fileName) {
@@ -174,7 +166,7 @@ public class ServiceStepsBasic {
      * @param webElement
      * @param fileName
      */
-    public void uploadFileToWebElement(WebElement webElement, String fileName) throws InterruptedException {
+    private void uploadFileToWebElement(WebElement webElement, String fileName) throws InterruptedException {
         webElement.sendKeys(getLocalFile(fileName).getAbsolutePath());
         Thread.sleep(environment.getProperty("sleep.timeout.small", Integer.class) * 1000);
     }
@@ -186,7 +178,7 @@ public class ServiceStepsBasic {
      * @param url file url
      */
 
-    public void downloadFile(String url) {
+    private void downloadFile(String url) {
         md5String = Optional.empty();
 
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -253,7 +245,6 @@ public class ServiceStepsBasic {
 
     }
 
-
     @When("I download $description file from <a> element with css selector $selector")
     public void downloadFileFromAElementWithCssSelector(String description, String selector) {
         WebElement element = getWebDriver().findElement(By.cssSelector(selector));
@@ -268,14 +259,6 @@ public class ServiceStepsBasic {
     @When("I upload file $fileName using input element with xpath $xpath")
     public void uploadFileFromPathUsingLinkText(String fileName, String xpath) throws InterruptedException {
         uploadFileToWebElement(getWebDriver().findElement(By.xpath(xpath)), fileName);
-        Thread.sleep(environment.getProperty("wait.timeout.small", Integer.class));
-    }
-
-    @When("I type $string into element with css selector $selector")
-    public void typeIntoElementByCssSelector(String input, String selector) {
-        input = substituteParamsAndVariables(input);
-        getWebDriver().findElement(By.cssSelector(selector)).clear();
-        getWebDriver().findElement(By.cssSelector(selector)).sendKeys(input);
     }
 
     @Then("I see $description with css selector $selector is: $text")
