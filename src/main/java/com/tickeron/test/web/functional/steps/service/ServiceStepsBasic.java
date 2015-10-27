@@ -13,6 +13,7 @@ import org.hamcrest.CoreMatchers;
 import org.jbehave.core.annotations.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -129,12 +130,14 @@ public class ServiceStepsBasic {
     @When("I click on $description with css selector $selector")
     // description only for humans
     public void clickOnElementByCssSelector(String description, String selector) {
+        waitUntilElementIsVisibleByCss(description, selector);
         getWebDriver().findElement(By.cssSelector(selector)).click();
     }
 
     @When("I type $string into $description with css selector $selector")
     // description only for humans
     public void typeIntoElementByCssSelector(String input, String description, String selector) {
+        waitUntilElementIsVisibleByCss(description, selector);
         input = substituteParamsAndVariables(input);
         getWebDriver().findElement(By.cssSelector(selector)).clear();
         getWebDriver().findElement(By.cssSelector(selector)).sendKeys(input);
@@ -264,6 +267,7 @@ public class ServiceStepsBasic {
     @Then("I see $description with css selector $selector is: $text")
     // description only for humans
     public void checkElementTextByCssSelectorIs(String desription, String selector, String text) {
+        waitUntilElementIsVisibleByCss(desription, selector);
         WebElement element = getWebDriver().findElement(By.cssSelector(selector));
         try {
             assertEquals(text, element.getText());
@@ -275,6 +279,7 @@ public class ServiceStepsBasic {
     @Then("I see $description with css selector $selector contains: $text")
     // description only for humans
     public void checkElementTextBySccSelectorContains(String desription, String selector, String text) {
+        waitUntilElementIsVisibleByCss(desription, selector);
         WebElement element = getWebDriver().findElement(By.cssSelector(selector));
         try {
             assertThat(element.getText(), CoreMatchers.containsString(text));
@@ -310,9 +315,14 @@ public class ServiceStepsBasic {
     }
 
     @When("I will wait until $description element with css selector $selector will be visible")
-    public void WaitUntilElementIsVisibleByCss(String description, String selector) {
-        new WebDriverWait(getWebDriver(), environment.getProperty("wait.timeout.big", Integer.class))
-                .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(selector)));
+    public void waitUntilElementIsVisibleByCss(String description, String selector) {
+        try {
+            new WebDriverWait(getWebDriver(), environment.getProperty("wait.timeout.big", Integer.class))
+                    .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(selector)));
+        }
+        catch (WebDriverException e) {
+            fail(String.format("element with css %s is not visible. Can't perform any action with it", selector));
+        }
     }
 
 }

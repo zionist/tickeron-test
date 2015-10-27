@@ -65,6 +65,7 @@ public class SeleniumSteps {
         if (webDriver.isPresent()) {
             resetBrowser();
             getWebDriver().get(environment.getProperty("server.url"));
+            Thread.sleep(5 * 1000);
             return;
         }
 

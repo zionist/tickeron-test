@@ -48,10 +48,12 @@ And I click on newsletter1 link with css selector .col-sm-8 > a:nth-child(1)
 !-- Write note
 And I wait until service ready
 When I click on Private notes link with css selector a.cx-right-nav-btn
+When I will wait until edotor windows element with css selector .cke_wysiwyg_div will be visible
+And I click on editor window with css selector .cke_wysiwyg_div
 And I wait small timeout
 And I type test into notes text area with css selector .cke_wysiwyg_div
 And I click on Add notes button with css selector input.btn-primary:nth-child(1)
-And I wait small timeout
+When I will wait until ticker element element with css selector pre.ng-binding will be visible
 !-- Check note is in the top window
 Then I see message in top window with css selector pre.ng-binding is: test
 When I click on X icon with css selector .cx-chat-close-icon
@@ -193,7 +195,8 @@ And I click on edit link  with css selector button.fa-pencil
 And I click on issue trash icon with css selector .fa-trash-o
 And I will wait until confirmation dialog element with css selector div.in:nth-child(1) > div:nth-child(1) will be visible
 And I click on Yes button in confirmation dialog with css selector button.ng-binding:nth-child(1)
-And I wait until service ready
+And I wait big timeout
+!-- And I wait until service ready
 !-- Check newsletter issues list is empty
 Then I see issues list in newsletter with css selector div.ng-isolate-scope:nth-child(3) > span:nth-child(3) > div:nth-child(1) is: NEWSLETTER CONTAINS NO ISSUES
 

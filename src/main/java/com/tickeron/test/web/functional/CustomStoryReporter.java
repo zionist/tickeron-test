@@ -5,6 +5,7 @@ import org.jbehave.core.model.GivenStories;
 import org.jbehave.core.reporters.NullStoryReporter;
 import org.jbehave.core.reporters.StoryReporter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 /**
  * Created by slaviann on 23.10.15.
@@ -13,6 +14,9 @@ public class CustomStoryReporter  extends NullStoryReporter implements StoryRepo
 
     @Autowired
     FuncEmbedder funcEmbedder;
+
+    @Autowired
+    Environment environment;
 
     @Autowired
     private ParamsAndVariablesSteps paramsAndVariablesSteps;
@@ -27,6 +31,7 @@ public class CustomStoryReporter  extends NullStoryReporter implements StoryRepo
      */
     public void failed(String step, Throwable cause) {
         funcEmbedder.setFailed();
+        if(environment.getProperty("stop.onfail", Boolean.class)) System.exit(1);
     }
 
     @Override
