@@ -293,22 +293,8 @@ public class ServiceStepsBasic {
         }
     }
 
-    public void test() throws InterruptedException {
-        Actions actions = new Actions(getWebDriver());
-        //actions.click(getWebDriver().findElement(By.cssSelector("#filterInput")));
-        Thread.sleep(1000);
-        actions.moveToElement(getWebDriver().findElement(By.cssSelector("#chb34108")));
-        actions.click(getWebDriver().findElement(By.cssSelector("#chb34108")));
-        actions.perform();
-
-    }
     @When("I start recording action")
     public void startActionRecord() throws InterruptedException {
-        //actions.click(getWebDriver().findElement(By.cssSelector("#filterInput")));
-        //actions.moveToElement(getWebDriver().findElement(By.cssSelector("#chb34108")));
-        //actions.click(getWebDriver().findElement(By.cssSelector("#chb34108")));
-        //actions.perform();
-        Thread.sleep(1000);
         actions = Optional.of(new Actions(getWebDriver()));
 
     }
@@ -331,6 +317,12 @@ public class ServiceStepsBasic {
         actions.ifPresent(a -> {
             a.perform();
         });
+    }
+
+    @When("I will wait until $description element with css selector $selector will be visible")
+    public void WaitUntilElementIsVisibleByCss(String description, String selector) {
+        new WebDriverWait(getWebDriver(), environment.getProperty("wait.timeout.big", Integer.class))
+                .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(selector)));
     }
 
 }

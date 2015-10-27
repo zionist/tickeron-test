@@ -35,14 +35,18 @@ When I click on add new issue button with css selector button.pull-right
 Then I see issue page header with css selector h2.ng-scope is: New issue
 When I type issue1 into issue title input with css selector input.ng-valid-maxlength
 And I upload file cat.jpeg using input element with xpath //input[@type='file']
+!-- Wait intil tickers list will be loaded
 And I click on ticker selection input with css selector #filterInput
+And I will wait until ticker element element with css selector #chb34108 will be visible
+!-- Tickers list appears. Lets start move to first ticker element
 And I start recording action
 And I will move in action to A ticker checkbox element with css selector #chb34108
 And I will click in action on A ticker checkbox element with css selector #chb34108
 And I will move in action to Add button element with css selector div.col-sm-4 > button:nth-child(1)
 And I will click in action on Add button element with css selector div.col-sm-4 > button:nth-child(1)
 Then I perform previously recorded action
-When I wait small timeout
+!-- Wait until tickers list will be not visible
+When I wait big timeout
 When I click on save button with css selector span.pull-right:nth-child(1) > button:nth-child(2)
 And I wait until service ready
 Then I see issue tittle in issues list with css selector .cx-grid-title is: issue1
@@ -50,7 +54,6 @@ Then I see page header with css selector .cx-subtitle is: newsletter1
 !-- Download issue file
 When I download newsletter issue file from <a> element with css selector a.cx-action-icon-button
 Then Downloaded file is cat.jpeg
-
 
 Scenario:
 Edit newsletter issue
@@ -142,6 +145,10 @@ Given Set test param password value from property param.expert.password
 Scenario: Work with newsletters as expert user
 GivenStories:
     stories/02_iproducts_newsletter.story#{name:Create newsletter},
+    stories/02_iproducts_newsletter.story#{name:Create newsletter issue},
+    stories/02_iproducts_newsletter.story#{name:Edit newsletter issue},
+    stories/02_iproducts_newsletter.story#{name:Remove newsletter issue},
     stories/02_iproducts_newsletter.story#{name:Edit newsletter},
     stories/02_iproducts_newsletter.story#{name:Remove newsletter}
 Given Do nothing
+

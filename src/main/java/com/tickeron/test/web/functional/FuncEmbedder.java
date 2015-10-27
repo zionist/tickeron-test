@@ -58,7 +58,7 @@ public class FuncEmbedder extends Embedder {
     @Override
     public EmbedderControls embedderControls() {
         return new EmbedderControls()
-                .doIgnoreFailureInStories(true)
+                .doIgnoreFailureInStories(false)
                 .doIgnoreFailureInView(true)
                 .doVerboseFailures(true)
                 .doVerboseFiltering(false)

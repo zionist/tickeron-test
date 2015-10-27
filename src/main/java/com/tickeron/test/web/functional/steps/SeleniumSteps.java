@@ -74,6 +74,7 @@ public class SeleniumSteps {
         else throw new RuntimeException(String.format("Wrong browser name - %s", browser));
         getWebDriver().get(environment.getProperty("server.url"));
         Thread.sleep(5);
+        getWebDriver().manage().window().maximize();
     }
 
 
