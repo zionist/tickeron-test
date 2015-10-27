@@ -37,6 +37,27 @@ When I download newsletter file from <a> element with css selector .col-sm-offse
 Then Downloaded file is cat.jpeg
 
 Scenario:
+Add newsletter note
+Meta:
+@name Add newsletter note
+!-- Open newsletter page
+When I click on iproducts menu tab with css selector div.main_menu_item:nth-child(4) > div:nth-child(1) > a:nth-child(1)
+When I click on newsletters menu item with css selector .open > ul:nth-child(3) > li:nth-child(1) > a:nth-child(2)
+And I wait until service ready
+And I click on newsletter1 link with css selector .col-sm-8 > a:nth-child(1)
+!-- Write note
+And I wait until service ready
+When I click on Private notes link with css selector a.cx-right-nav-btn
+And I wait small timeout
+And I type test into notes text area with css selector .cke_wysiwyg_div
+And I click on Add notes button with css selector input.btn-primary:nth-child(1)
+And I wait small timeout
+!-- Check note is in the top window
+Then I see message in top window with css selector pre.ng-binding is: test
+When I click on X icon with css selector .cx-chat-close-icon
+And I wait small timeout
+
+Scenario:
 Create newsletter issue
 Meta:
 @name Create newsletter issue
@@ -73,6 +94,7 @@ Then I see ussue title with css selector .cx-grid-title is: issue1
 And I see tickers table field with css selector .cx-navigation-list-item > div:nth-child(2) > div:nth-child(2) > span:nth-child(1) > span:nth-child(1) > span:nth-child(1) is: A
 When I download newsletter issue file from <a> element with css selector a.cx-action-icon-button
 Then Downloaded file is cat.jpeg
+
 
 Scenario:
 Publish newsletter
@@ -228,6 +250,7 @@ Given Set test param password value from property param.expert.password
 Scenario: Work with newsletters as expert user
 GivenStories:
     stories/02_iproducts_newsletter.story#{name:Create newsletter},
+    stories/02_iproducts_newsletter.story#{name:Add newsletter note},
     stories/02_iproducts_newsletter.story#{name:Create newsletter issue},
     stories/02_iproducts_newsletter.story#{name:Publish newsletter},
     stories/02_iproducts_newsletter.story#{name:Unpublish newsletter},
