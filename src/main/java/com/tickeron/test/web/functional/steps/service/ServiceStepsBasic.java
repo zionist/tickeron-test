@@ -9,6 +9,7 @@ import com.tickeron.test.common.exceptions.Formatter;
 import com.tickeron.test.common.exceptions.PropertyNotFoundException;
 import com.tickeron.test.web.functional.steps.ParamsAndVariablesSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
+import org.hamcrest.CoreMatchers;
 import org.jbehave.core.annotations.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -131,7 +132,6 @@ public class ServiceStepsBasic {
         clickOnElementByCssSelector(selector);
     }
 
-    @When("I click element with css selector $selector")
     public void clickOnElementByCssSelector(String selector) {
         getWebDriver().findElement(By.cssSelector(selector)).click();
     }
@@ -268,6 +268,7 @@ public class ServiceStepsBasic {
     @When("I upload file $fileName using input element with xpath $xpath")
     public void uploadFileFromPathUsingLinkText(String fileName, String xpath) throws InterruptedException {
         uploadFileToWebElement(getWebDriver().findElement(By.xpath(xpath)), fileName);
+        Thread.sleep(environment.getProperty("wait.timeout.small", Integer.class));
     }
 
     @When("I type $string into element with css selector $selector")
@@ -279,15 +280,21 @@ public class ServiceStepsBasic {
 
     @Then("I see $description with css selector $selector is: $text")
     // description only for humans
-    public void checkElementContainsText(String desription, String selector, String text) {
-        checkElementTextIs(selector, text);
-    }
-
-    @Then("I see element with css selector $selector contains: $text")
-    public void checkElementTextIs(String selector, String text) {
+    public void checkElementTextByCssSelectorIs(String desription, String selector, String text) {
         WebElement element = getWebDriver().findElement(By.cssSelector(selector));
         try {
             assertEquals(text, element.getText());
+        } catch (AssertionError e) {
+            throw new AssertionErrorWithContextParamsException(e, paramsAndVariablesSteps.getTestParamsStorage());
+        }
+    }
+
+    @Then("I see $description with css selector $selector contains: $text")
+    // description only for humans
+    public void checkElementTextBySccSelectorContains(String desription, String selector, String text) {
+        WebElement element = getWebDriver().findElement(By.cssSelector(selector));
+        try {
+            assertThat(element.getText(), CoreMatchers.containsString(text));
         } catch (AssertionError e) {
             throw new AssertionErrorWithContextParamsException(e, paramsAndVariablesSteps.getTestParamsStorage());
         }
