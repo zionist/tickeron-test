@@ -31,6 +31,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.jbehave.core.reporters.Format.ANSI_CONSOLE;
+import static org.jbehave.core.reporters.Format.STATS;
+import static org.jbehave.core.reporters.Format.TXT;
 
 public class FuncEmbedder extends Embedder {
 
@@ -75,7 +77,7 @@ public class FuncEmbedder extends Embedder {
                             .withReporters(customStoryReporter)
                             .withCodeLocation(CodeLocations.codeLocationFromClass(embedderClass))
                                     //.withDefaultFormats()
-                            .withFormats(ANSI_CONSOLE)
+                            .withFormats(ANSI_CONSOLE, TXT, STATS)
                             .withFailureTrace(false)
                             .withFailureTraceCompression(true)
                             .withCrossReference(new CrossReference()))
@@ -151,14 +153,14 @@ public class FuncEmbedder extends Embedder {
     }
 
     public void run(String storiesGlob) {
-        Integer exit_code = 0;
-        try {
+        //Integer exit_code = 0;
+        //try {
             this.runStoriesAsPaths(getStories(storiesGlob));
-        } catch (Exception e) {
-            exit_code = 1;
-        }
+        //} catch (Exception e) {
+        //    exit_code = 1;
+        //}
         // May have client threads in background
-        System.exit(exit_code);
+        //System.exit(exit_code);
     }
 
 }

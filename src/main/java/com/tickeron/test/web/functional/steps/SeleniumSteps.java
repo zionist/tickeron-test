@@ -73,7 +73,7 @@ public class SeleniumSteps {
         else if (browser.equals("Chrome")) setChromWebDriver();
         else throw new RuntimeException(String.format("Wrong browser name - %s", browser));
         getWebDriver().get(environment.getProperty("server.url"));
-        Thread.sleep(5);
+        Thread.sleep(5 * 1000);
         getWebDriver().manage().window().maximize();
     }
 
