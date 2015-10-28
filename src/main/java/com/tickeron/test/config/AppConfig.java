@@ -1,13 +1,11 @@
 package com.tickeron.test.config;
 
-import com.tickeron.test.common.exceptions.AssertionErrorWithContextParamsException;
 import com.tickeron.test.web.functional.CustomEmbedderMonitor;
-import com.tickeron.test.web.functional.CustomStoryReporter;
+import com.tickeron.test.web.functional.CustomAnsiStoryReporter;
 import com.tickeron.test.web.functional.FuncEmbedder;
 import com.tickeron.test.web.functional.steps.*;
 import com.tickeron.test.web.functional.steps.service.PortfolioSteps;
 import com.tickeron.test.web.functional.steps.service.ServiceStepsBasic;
-import org.jbehave.core.embedder.NullEmbedderMonitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,7 +54,7 @@ public class AppConfig {
     }
 
     @Bean
-    public CustomStoryReporter customStoryReporter() { return new CustomStoryReporter(); }
+    public CustomAnsiStoryReporter customStoryReporter() { return new CustomAnsiStoryReporter(); }
 
 
 }

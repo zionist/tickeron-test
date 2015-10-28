@@ -12,6 +12,7 @@ import org.jbehave.core.embedder.EmbedderControls;
 import org.jbehave.core.embedder.EmbedderMonitor;
 import org.jbehave.core.io.CodeLocations;
 import org.jbehave.core.io.LoadFromClasspath;
+import org.jbehave.core.reporters.ANSIConsoleOutput;
 import org.jbehave.core.reporters.CrossReference;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
@@ -50,7 +51,7 @@ public class FuncEmbedder extends Embedder {
     private ParamsAndVariablesSteps paramsAndVariablesSteps;
 
     @Autowired
-    private CustomStoryReporter customStoryReporter;
+    private CustomAnsiStoryReporter customAnsiStoryReporter;
 
     public FuncEmbedder(EmbedderMonitor embedderMonitor) {
         super(embedderMonitor);
@@ -83,10 +84,10 @@ public class FuncEmbedder extends Embedder {
             return new MostUsefulConfiguration()
                     .useStoryLoader(new LoadFromClasspath(embedderClass.getClassLoader()))
                     .useStoryReporterBuilder(new StoryReporterBuilder()
-                            .withReporters(customStoryReporter)
+                            .withReporters(customAnsiStoryReporter)
                             .withCodeLocation(CodeLocations.codeLocationFromClass(embedderClass))
                                     //.withDefaultFormats()
-                            .withFormats(ANSI_CONSOLE, TXT, STATS, XML)
+                            .withFormats(TXT, STATS, XML)
                             .withFailureTrace(false)
                             .withFailureTraceCompression(false)
                             .withCrossReference(new CrossReference()))
