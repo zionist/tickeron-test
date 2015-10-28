@@ -43,7 +43,8 @@ public class CustomAnsiStoryReporter extends ANSIConsoleOutput {
 
     @Override
     public void beforeScenario(String title) {
-        print(format("beforeScenario", "{0} {1} {2}\n", "Scenario params", paramsAndVariablesSteps.getTestParamsStorage().toString(), title));
+        //print(format("Scenario:", "{0} {1}\n", title, paramsAndVariablesSteps.getTestParamsStorage().toString()));
+        print(format("beforeScenario", "{0} {1}\n", "Scenario:", String.format("%s. Params are: %s", title, paramsAndVariablesSteps.getTestParamsStorage().toString())));
     }
 
 }
