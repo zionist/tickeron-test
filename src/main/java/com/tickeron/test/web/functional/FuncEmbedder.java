@@ -71,6 +71,8 @@ public class FuncEmbedder extends Embedder {
                 .doIgnoreFailureInView(true)
                 .doVerboseFailures(true)
                 .doVerboseFiltering(false)
+                .doFailOnStoryTimeout(false)
+                .useStoryTimeouts("1h")
                 .doGenerateViewAfterStories(true);
     }
 
