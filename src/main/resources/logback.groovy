@@ -33,5 +33,5 @@ logger('com.tickeron.test', WARN)
 logger('com.tickeron.test.web.functional', INFO)
 logger('org.springframework', ERROR)
 
-root(ERROR, ['CONSOLE'])
+root(INFO, ['CONSOLE', 'FILE'])
 //root(ERROR, ['FILE'])

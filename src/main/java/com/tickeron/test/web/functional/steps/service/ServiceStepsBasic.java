@@ -73,26 +73,31 @@ public class ServiceStepsBasic {
 
     @When("I wait until service ready")
     public void waitUntilBrowserReady() throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(getWebDriver(), environment.getProperty("wait.timeout.big", Integer.class));
-        Thread.sleep(environment.getProperty("wait.timeout.small", Integer.class) * 1000);
-        wait.until(
-                new ExpectedCondition<Boolean>() {
-                    String currentValue = "";
+        try {
+            Thread.sleep(environment.getProperty("wait.timeout.small", Integer.class) * 1000);
+            WebDriverWait wait = new WebDriverWait(getWebDriver(), environment.getProperty("wait.timeout.big", Integer.class));
+            wait.until(
+                    new ExpectedCondition<Boolean>() {
+                        String currentValue = "";
 
-                    @Override
-                    public Boolean apply(WebDriver driver) {
-                        currentValue = driver.findElement(By.cssSelector("html")).getAttribute("class");
-                        return !currentValue.contains("nprogress-busy");
+                        @Override
+                        public Boolean apply(WebDriver driver) {
+                            currentValue = driver.findElement(By.cssSelector("html")).getAttribute("class");
+                            return !currentValue.contains("nprogress-busy");
+                        }
+
+                        @Override
+                        public String toString() {
+                            return String.format("attribute %s to be \"%s\". Current attribute values : \"%s\"", "class", "nprogress-busy", currentValue);
+                        }
                     }
 
-                    @Override
-                    public String toString() {
-                        return String.format("attribute %s to be \"%s\". Current attribute values : \"%s\"", "class", "nprogress-busy", currentValue);
-                }
-            }
 
-
-        );
+            );
+        }
+        catch (java.lang.InterruptedException e) {
+            log.error(e.toString());
+        }
     }
 
 
