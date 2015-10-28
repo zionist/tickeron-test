@@ -36,9 +36,10 @@ public class CustomStoryReporter  extends NullStoryReporter implements StoryRepo
     public void failed(String step, Throwable cause) {
         funcEmbedder.setFailed();
         if(environment.getProperty("stop.onfail", Boolean.class)) {
-            log.warn("Option stop.onfail set. Will exit from test");
+            log.warn(String.valueOf(cause.getCause()));
             //fail("Option stop.onfail set. Will exit from test");
-            System.exit(1);}
+            System.exit(1);
+            }
     }
 
     @Override
@@ -51,8 +52,8 @@ public class CustomStoryReporter  extends NullStoryReporter implements StoryRepo
      */
     public void beforeScenario(String title) {
         super.beforeScenario(title);
-        log.info(String.format("Scenario params: %s", paramsAndVariablesSteps.getTestParamsStorage()));
-        //System.out.println(String.format("Scenario params: %s", paramsAndVariablesSteps.getTestParamsStorage()));
+        //log.info(String.format("Scenario params: %s", paramsAndVariablesSteps.getTestParamsStorage()));
+        System.out.println(String.format("Scenario params: %s", paramsAndVariablesSteps.getTestParamsStorage()));
     }
 
 }

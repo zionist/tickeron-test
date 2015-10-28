@@ -323,7 +323,7 @@ public class ServiceStepsBasic {
                     .until(ExpectedConditions.textToBePresentInElement(webElement, content));
         }
         catch (WebDriverException e) {
-            log.warn(String.format("element %s does not contains %s. Can't perform any action with it", by.toString(), content), paramsAndVariablesSteps.getTestParamsStorage());
+            //log.warn(String.format("element %s does not contains %s. Can't perform any action with it", by.toString(), content), paramsAndVariablesSteps.getTestParamsStorage());
             try {
                 assertEquals(content, getWebDriver().findElement(by).getText());
             } catch (AssertionError a) {
@@ -347,7 +347,7 @@ public class ServiceStepsBasic {
                     .until(ExpectedConditions.textToBePresentInElement(webElement, content));
         }
         catch (WebDriverException e) {
-            log.warn(String.format("element %s does not contains %s. Can't perform any action with it", by.toString(), content), paramsAndVariablesSteps.getTestParamsStorage());
+            //log.warn(String.format("element %s does not contains %s. Can't perform any action with it", by.toString(), content), paramsAndVariablesSteps.getTestParamsStorage());
             try {
                 assertThat(getWebDriver().findElement(by).getText(), CoreMatchers.containsString(content));
             } catch (AssertionError a) {

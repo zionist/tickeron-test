@@ -87,8 +87,8 @@ public class FuncEmbedder extends Embedder {
                             .withCodeLocation(CodeLocations.codeLocationFromClass(embedderClass))
                                     //.withDefaultFormats()
                             .withFormats(ANSI_CONSOLE, TXT, STATS, XML)
-                            .withFailureTrace(true)
-                            .withFailureTraceCompression(true)
+                            .withFailureTrace(false)
+                            .withFailureTraceCompression(false)
                             .withCrossReference(new CrossReference()))
                     .useParameterConverters(new ParameterConverters()
                             .addConverters(new ParameterConverters.DateConverter(new SimpleDateFormat("yyyy-MM-dd")))) // use custom date pattern
