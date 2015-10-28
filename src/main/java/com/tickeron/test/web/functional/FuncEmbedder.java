@@ -140,8 +140,8 @@ public class FuncEmbedder extends Embedder {
 
         return paths;
     }
-    /*
-    Parse and set tests properties (for example username, password etc) from command line prompt
+    /**
+    * Parse and set tests properties (for example username, password etc) from command line prompt
      */
     public void setTestsProperties(Optional<String> properties) {
         properties.ifPresent((p) -> {

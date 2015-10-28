@@ -8,7 +8,4 @@ import org.jbehave.core.embedder.NullEmbedderMonitor;
  */
 public class CustomEmbedderMonitor extends NullEmbedderMonitor implements EmbedderMonitor {
 
-    @Override
-    public void runningStory(String path) {
-    }
 }

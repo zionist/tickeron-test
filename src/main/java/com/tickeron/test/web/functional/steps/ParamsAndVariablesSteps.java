@@ -28,7 +28,7 @@ public class ParamsAndVariablesSteps extends Steps {
     private Map<String, String> tempValues = new HashMap<String, String>();
     private Map<String, String> testParams = new HashMap<String, String>();
 
-    private static Logger log = LoggerFactory.getLogger("com.tickeron.test.web.functional.steps");
+    private static Logger log = LoggerFactory.getLogger(ParamsAndVariablesSteps.class);
     public Map<String, String> getVariableStorage() {
         return tempValues;
     }

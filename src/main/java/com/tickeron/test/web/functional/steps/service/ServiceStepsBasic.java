@@ -39,6 +39,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by slaviann on 11.09.15.
@@ -46,6 +48,8 @@ import java.util.function.Function;
  * This class can have child classes for logical units (Login, Portfolio, User Management, Community ... etc)
  */
 public class ServiceStepsBasic {
+
+    private static Logger log = LoggerFactory.getLogger(ServiceStepsBasic.class);
 
     private Optional<String> md5String = Optional.empty();
     private Optional<Actions> actions = Optional.empty();
@@ -182,6 +186,7 @@ public class ServiceStepsBasic {
      */
 
     private void downloadFile(String url) {
+        log.debug(String.format("File download using okhttpclient started"));
         md5String = Optional.empty();
 
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -211,6 +216,7 @@ public class ServiceStepsBasic {
             fail(String.format("Can't download file %s", url));
             e.printStackTrace();
         }
+        log.debug(String.format("File download finished. md5sum of downloaded file is %s", md5String));
 
     }
 
@@ -316,13 +322,15 @@ public class ServiceStepsBasic {
 
     @When("I will wait until $description element with css selector $selector will be visible")
     public void waitUntilElementIsVisibleByCss(String description, String selector) {
+        log.debug(String.format("Waiting for element with %s will be visible", selector));
         try {
             new WebDriverWait(getWebDriver(), environment.getProperty("wait.timeout.big", Integer.class))
                     .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(selector)));
         }
         catch (WebDriverException e) {
-            fail(String.format("element with css %s is not visible. Can't perform any action with it", selector));
+            throw new AssertionErrorWithContextParamsException(String.format("element with css %s is not visible. Can't perform any action with it", selector), paramsAndVariablesSteps.getTestParamsStorage());
         }
+        log.debug(String.format("Waiting for element with %s finished successfully", selector));
     }
 
 }

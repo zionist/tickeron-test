@@ -10,6 +10,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
@@ -18,6 +20,7 @@ import java.util.Optional;
  */
 public class SeleniumSteps {
 
+    private static Logger log = LoggerFactory.getLogger(SeleniumSteps.class);
     public Optional<WebDriver> webDriver = Optional.empty();
 
     @Autowired
@@ -32,11 +35,7 @@ public class SeleniumSteps {
 
 
     private void setFireFoxWebDriver() {
-       FirefoxProfile profile = new FirefoxProfile();
-       //profile.setPreference("general.useragent.override", environment.getProperty("user.agent"));
-       //webDriver = Optional.of(new FirefoxDriver(profile));
-       webDriver = Optional.of(new FirefoxDriver());
-       JavascriptExecutor js;
+      webDriver = Optional.of(new FirefoxDriver());
     }
 
     public Optional<Object> executeJs(String jsString) {
