@@ -5,6 +5,29 @@ As a user
 I want to perform an action
 So that I can achieve a business goal
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Scenario:
 Unpublish newsletter
 Meta:
@@ -134,3 +157,4 @@ GivenStories:
     stories/02_iproducts_newsletter.story#{name:Edit unpublished newsletter},
     stories/02_iproducts_newsletter.story#{name:Remove newsletter}
 Given Do nothing
+

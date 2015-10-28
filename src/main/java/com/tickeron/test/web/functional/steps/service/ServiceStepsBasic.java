@@ -274,6 +274,13 @@ public class ServiceStepsBasic {
         waitUntilElementContentDisplayedAndTextIs(By.cssSelector(selector), text);
     }
 
+    @Then("I see $description with css selector $selector is empty")
+    // description only for humans
+    public void checkElementTextByCssSelectorIsEmpty(String desription, String selector) {
+        waitUntilElementIsVisibleByCss(desription, selector);
+        waitUntilElementContentDisplayedAndTextIs(By.cssSelector(selector), "");
+    }
+
     @Then("I see $description with css selector $selector contains: $text")
     // description only for humans
     public void checkElementTextByCssSelectorContains(String desription, String selector, String text) {
@@ -308,7 +315,7 @@ public class ServiceStepsBasic {
     }
 
     /**
-     * Wait until text of element will be contain content string
+     * Wait until text of element will contain content string
      * Then do assert equals check
      * @param by
      * @param content
@@ -332,7 +339,7 @@ public class ServiceStepsBasic {
     }
 
     /**
-     * Wait until text of element will be contain content string
+     * Wait until text of element will contain content string
      * Then do assert contains check
      * @param by
      * @param content
