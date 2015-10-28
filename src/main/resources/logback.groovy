@@ -5,7 +5,8 @@ import static ch.qos.logback.classic.Level.*
 
 def logsRoot = 'logs'
 def projectName = 'tickeron-test'
-def logPattern = '%d [%t] %-5p %c{1} - %m%n'
+//def logPattern = '%d [%t] %-5p %c{1} - %m%n'
+def logPattern = '%-5p - %m%n'
 
 appender('CONSOLE', ConsoleAppender) {
     encoder(PatternLayoutEncoder) {

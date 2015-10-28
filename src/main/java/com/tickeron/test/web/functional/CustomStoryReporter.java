@@ -51,8 +51,8 @@ public class CustomStoryReporter  extends NullStoryReporter implements StoryRepo
      */
     public void beforeScenario(String title) {
         super.beforeScenario(title);
-        //log.info(String.format("Scenario params: %s", paramsAndVariablesSteps.getTestParamsStorage()));
-        System.out.println(String.format("Scenario params: %s", paramsAndVariablesSteps.getTestParamsStorage()));
+        log.info(String.format("Scenario params: %s", paramsAndVariablesSteps.getTestParamsStorage()));
+        //System.out.println(String.format("Scenario params: %s", paramsAndVariablesSteps.getTestParamsStorage()));
     }
 
 }

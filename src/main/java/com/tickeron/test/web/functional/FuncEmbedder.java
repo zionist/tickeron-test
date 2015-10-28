@@ -4,6 +4,7 @@ import com.tickeron.test.common.exceptions.PropertyNotFoundException;
 import com.tickeron.test.web.functional.steps.ParamsAndVariablesSteps;
 import com.tickeron.test.web.functional.steps.service.PortfolioSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
+import com.tickeron.test.web.functional.steps.service.ServiceStepsBasic;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
 import org.jbehave.core.embedder.Embedder;
@@ -40,8 +41,8 @@ public class FuncEmbedder extends Embedder {
     private Environment env;
     @Autowired
     private SeleniumSteps seleniumSteps;
-    //@Autowired
-    //private ServiceStepsBasic serviceSteps;
+    @Autowired
+    private ServiceStepsBasic serviceStepsBasic;
     @Autowired
     private PortfolioSteps portfolioSteps;
 
@@ -84,7 +85,7 @@ public class FuncEmbedder extends Embedder {
                             .withCodeLocation(CodeLocations.codeLocationFromClass(embedderClass))
                                     //.withDefaultFormats()
                             .withFormats(ANSI_CONSOLE, TXT, STATS, XML)
-                            .withFailureTrace(false)
+                            .withFailureTrace(true)
                             .withFailureTraceCompression(true)
                             .withCrossReference(new CrossReference()))
                     .useParameterConverters(new ParameterConverters()
@@ -97,7 +98,7 @@ public class FuncEmbedder extends Embedder {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), portfolioSteps, seleniumSteps, paramsAndVariablesSteps);
+        return new InstanceStepsFactory(configuration(), serviceStepsBasic, seleniumSteps, paramsAndVariablesSteps);
         //return new InstanceStepsFactory(configuration());
     }
 
