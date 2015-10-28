@@ -37,9 +37,9 @@ When I download newsletter file from <a> element with css selector .col-sm-offse
 Then Downloaded file is cat.jpeg
 
 Scenario:
-Add newsletter note
+Add note to unbublished newsletter
 Meta:
-@name Add newsletter note
+@name Add note to unbublished newsletter
 !-- Open newsletter page
 When I click on iproducts menu tab with css selector div.main_menu_item:nth-child(4) > div:nth-child(1) > a:nth-child(1)
 When I click on newsletters menu item with css selector .open > ul:nth-child(3) > li:nth-child(1) > a:nth-child(2)
@@ -60,9 +60,9 @@ When I click on X icon with css selector .cx-chat-close-icon
 And I wait small timeout
 
 Scenario:
-Create newsletter issue
+Create newsletter issue for unpublished newsletter
 Meta:
-@name Create newsletter issue
+@name Create newsletter issue for unpublished newsletter
 !-- Open previously created newsletter using top menu
 When I click on iproducts menu tab with css selector div.main_menu_item:nth-child(4) > div:nth-child(1) > a:nth-child(1)
 When I click on newsletters menu item with css selector .open > ul:nth-child(3) > li:nth-child(1) > a:nth-child(2)
@@ -155,9 +155,9 @@ And I see newsletter text with css selector div.col-sm-10:nth-child(2) > span:nt
 And I see newsletter link with css selector a.ng-isolate-scope:nth-child(3) > span:nth-child(1) is: View sample issue
 
 Scenario:
-Edit newsletter issue
+Edit issue in unpublished newsletter
 Meta:
-@name Edit newsletter issue
+@name Edit issue in unpublished newsletter
 !-- Open edit newsletter issue page
 When I click on iproducts menu tab with css selector div.main_menu_item:nth-child(4) > div:nth-child(1) > a:nth-child(1)
 When I click on newsletters menu item with css selector .open > ul:nth-child(3) > li:nth-child(1) > a:nth-child(2)
@@ -181,9 +181,9 @@ When I click on edit link  with css selector button.fa-pencil
 Then I see tickers list with css selector div.row:nth-child(8) > div:nth-child(1) > span:nth-child(1) > span:nth-child(2) > div:nth-child(1) is: NO TICKERS SELECTED YET
 
 Scenario:
-Remove newsletter issue
+Remove issue in unpublished newsletter
 Meta:
-@name Remove newsletter issue
+@name Remove issue in unpublished newsletter
 !-- Open edit newsletter issue page
 When I click on iproducts menu tab with css selector div.main_menu_item:nth-child(4) > div:nth-child(1) > a:nth-child(1)
 When I click on newsletters menu item with css selector .open > ul:nth-child(3) > li:nth-child(1) > a:nth-child(2)
@@ -201,9 +201,9 @@ And I wait big timeout
 Then I see issues list in newsletter with css selector div.ng-isolate-scope:nth-child(3) > span:nth-child(3) > div:nth-child(1) is: NEWSLETTER CONTAINS NO ISSUES
 
 Scenario:
-Edit newsletter
+Edit unpublished newsletter
 Meta:
-@name Edit newsletter
+@name Edit unpublished newsletter
 !-- Open newsletter using top menu
 When I click on iproducts menu tab with css selector div.main_menu_item:nth-child(4) > div:nth-child(1) > a:nth-child(1)
 When I click on newsletters menu item with css selector .open > ul:nth-child(3) > li:nth-child(1) > a:nth-child(2)
@@ -253,12 +253,12 @@ Given Set test param password value from property param.expert.password
 Scenario: Work with newsletters as expert user
 GivenStories:
     stories/02_iproducts_newsletter.story#{name:Create newsletter},
-    stories/02_iproducts_newsletter.story#{name:Add newsletter note},
-    stories/02_iproducts_newsletter.story#{name:Create newsletter issue},
+    stories/02_iproducts_newsletter.story#{name:Add note to unbublished newsletter},
+    stories/02_iproducts_newsletter.story#{name:Create newsletter issue for unpublished newsletter},
     stories/02_iproducts_newsletter.story#{name:Publish newsletter},
     stories/02_iproducts_newsletter.story#{name:Unpublish newsletter},
-    stories/02_iproducts_newsletter.story#{name:Edit newsletter issue},
-    stories/02_iproducts_newsletter.story#{name:Remove newsletter issue},
-    stories/02_iproducts_newsletter.story#{name:Edit newsletter},
+    stories/02_iproducts_newsletter.story#{name:Edit issue in unpublished newsletter},
+    stories/02_iproducts_newsletter.story#{name:Remove issue in unpublished newsletter},
+    stories/02_iproducts_newsletter.story#{name:Edit unpublished newsletter},
     stories/02_iproducts_newsletter.story#{name:Remove newsletter}
 Given Do nothing
