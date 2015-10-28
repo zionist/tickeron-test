@@ -1,11 +1,9 @@
 package com.tickeron.test.web.functional.steps.service;
 
-import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.tickeron.test.common.exceptions.AssertionErrorWithContextParamsException;
-import com.tickeron.test.common.exceptions.Formatter;
 import com.tickeron.test.common.exceptions.PropertyNotFoundException;
 import com.tickeron.test.web.functional.steps.ParamsAndVariablesSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
@@ -29,16 +27,11 @@ import java.io.*;
 import java.math.BigInteger;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Function;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,6 +67,7 @@ public class ServiceStepsBasic {
     @When("I wait until service ready")
     public void waitUntilBrowserReady() throws InterruptedException {
         try {
+            // Wait until server will show progress bar
             Thread.sleep(environment.getProperty("wait.timeout.small", Integer.class) * 1000);
             WebDriverWait wait = new WebDriverWait(getWebDriver(), environment.getProperty("wait.timeout.big", Integer.class));
             wait.until(
@@ -279,24 +273,14 @@ public class ServiceStepsBasic {
     // description only for humans
     public void checkElementTextByCssSelectorIs(String desription, String selector, String text) {
         waitUntilElementIsVisibleByCss(desription, selector);
-        WebElement element = getWebDriver().findElement(By.cssSelector(selector));
-        try {
-            assertEquals(text, element.getText());
-        } catch (AssertionError e) {
-            throw new AssertionErrorWithContextParamsException(e, paramsAndVariablesSteps.getTestParamsStorage());
-        }
+        waitUntilElementContentDisplayedAndTextIs(By.cssSelector(selector), text);
     }
 
     @Then("I see $description with css selector $selector contains: $text")
     // description only for humans
-    public void checkElementTextBySccSelectorContains(String desription, String selector, String text) {
+    public void checkElementTextByCssSelectorContains(String desription, String selector, String text) {
         waitUntilElementIsVisibleByCss(desription, selector);
-        WebElement element = getWebDriver().findElement(By.cssSelector(selector));
-        try {
-            assertThat(element.getText(), CoreMatchers.containsString(text));
-        } catch (AssertionError e) {
-            throw new AssertionErrorWithContextParamsException(e, paramsAndVariablesSteps.getTestParamsStorage());
-        }
+        waitUntilElementContentDisplayedAndTextContains(By.cssSelector(selector), text);
     }
 
     @When("I start recording action")
@@ -325,17 +309,72 @@ public class ServiceStepsBasic {
         });
     }
 
-    @When("I will wait until $description element with css selector $selector will be visible")
-    public void waitUntilElementIsVisibleByCss(String description, String selector) {
-        log.debug(String.format("Waiting for element with %s will be visible", selector));
+    /**
+     * Wait until text of element will be contain content string
+     * Then do assert equals check
+     * @param by
+     * @param content
+     */
+    private void waitUntilElementContentDisplayedAndTextIs(By by, String content) {
+        log.debug(String.format("Waiting for element %s will contains text %s", by.toString(), content));
+        WebElement webElement = getWebDriver().findElement(by);
         try {
             new WebDriverWait(getWebDriver(), environment.getProperty("wait.timeout.big", Integer.class))
-                    .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(selector)));
+                    .until(ExpectedConditions.textToBePresentInElement(webElement, content));
         }
         catch (WebDriverException e) {
-            throw new AssertionErrorWithContextParamsException(String.format("element with css %s is not visible. Can't perform any action with it", selector), paramsAndVariablesSteps.getTestParamsStorage());
+            log.warn(String.format("element %s does not contains %s. Can't perform any action with it", by.toString(), content), paramsAndVariablesSteps.getTestParamsStorage());
+            try {
+                assertEquals(content, getWebDriver().findElement(by).getText());
+            } catch (AssertionError a) {
+                throw new AssertionErrorWithContextParamsException(a, paramsAndVariablesSteps.getTestParamsStorage());
+            }
         }
-        log.debug(String.format("Waiting for element with %s finished successfully", selector));
+        log.debug(String.format("Waiting for element %s contains text %s finished successfully", by.toString(), content));
     }
+
+    /**
+     * Wait until text of element will be contain content string
+     * Then do assert contains check
+     * @param by
+     * @param content
+     */
+    private void waitUntilElementContentDisplayedAndTextContains(By by, String content) {
+        log.debug(String.format("Waiting for element %s will contains text %s", by.toString(), content));
+        WebElement webElement = getWebDriver().findElement(by);
+        try {
+            new WebDriverWait(getWebDriver(), environment.getProperty("wait.timeout.big", Integer.class))
+                    .until(ExpectedConditions.textToBePresentInElement(webElement, content));
+        }
+        catch (WebDriverException e) {
+            log.warn(String.format("element %s does not contains %s. Can't perform any action with it", by.toString(), content), paramsAndVariablesSteps.getTestParamsStorage());
+            try {
+                assertThat(getWebDriver().findElement(by).getText(), CoreMatchers.containsString(content));
+            } catch (AssertionError a) {
+                throw new AssertionErrorWithContextParamsException(a, paramsAndVariablesSteps.getTestParamsStorage());
+            }
+        }
+        log.debug(String.format("Waiting for element %s contains text %s finished successfully", by.toString(), content));
+
+    }
+
+    private void waitUntilElementIsVisible(By by) {
+        log.debug(String.format("Waiting for element %s will be visible", by.toString()));
+        try {
+            new WebDriverWait(getWebDriver(), environment.getProperty("wait.timeout.big", Integer.class))
+                    .until(ExpectedConditions.presenceOfElementLocated(by));
+        }
+        catch (WebDriverException e) {
+            throw new AssertionErrorWithContextParamsException(String.format("element with css %s is not visible. Can't perform any action with it", by.toString()), paramsAndVariablesSteps.getTestParamsStorage());
+        }
+        log.debug(String.format("Waiting for element %s finished successfully", by.toString()));
+
+    }
+
+    @When("I will wait until $description element with css selector $selector will be visible")
+    public void waitUntilElementIsVisibleByCss(String description, String selector) {
+        waitUntilElementIsVisible(By.cssSelector(selector));
+    }
+
 
 }
