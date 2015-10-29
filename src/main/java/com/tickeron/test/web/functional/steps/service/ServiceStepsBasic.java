@@ -202,10 +202,8 @@ public class ServiceStepsBasic {
         for(org.openqa.selenium.Cookie cookie : getWebDriver().manage().getCookies()) {
             builder = builder.addHeader("Cookie", String.format("%s=%s", cookie.getName(), cookie.getValue()));
         }
-        // Set user agent same as in browser
-        //builder.removeHeader("User-Agent");
-        //builder.addHeader("User-Agent", environment.getProperty("user.agent"));
-        //builder = builder.header("test", "testValue");
+
+
         Request request = builder.build();
         try {
             Response response = okHttpClient.newCall(request).execute();

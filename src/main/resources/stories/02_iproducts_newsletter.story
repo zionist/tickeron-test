@@ -52,6 +52,7 @@ When I will wait until edotor windows element with css selector .cke_wysiwyg_div
 And I click on editor window with css selector .cke_wysiwyg_div
 And I wait small timeout
 And I type test into notes text area with css selector .cke_wysiwyg_div
+And I wait small timeout
 And I click on Add notes button with css selector input.btn-primary:nth-child(1)
 When I will wait until ticker element element with css selector pre.ng-binding will be visible
 !-- Check note is in the top window

@@ -29,11 +29,13 @@ public class CustomAnsiStoryReporter extends ANSIConsoleOutput {
     @Autowired
     private ParamsAndVariablesSteps paramsAndVariablesSteps;
 
+    private String scenarioName;
+
     @Override
-    /**
-     * TODO: refactor
-     */
     public void failed(String step, Throwable cause) {
+
+
+
         super.failed(step, cause);
         funcEmbedder.setFailed();
         if(environment.getProperty("stop.onfail", Boolean.class)) {
@@ -44,7 +46,8 @@ public class CustomAnsiStoryReporter extends ANSIConsoleOutput {
     @Override
     public void beforeScenario(String title) {
         //print(format("Scenario:", "{0} {1}\n", title, paramsAndVariablesSteps.getTestParamsStorage().toString()));
-        print(format("beforeScenario", "{0} {1}\n", "Scenario:", String.format("%s. Params are: %s", title, paramsAndVariablesSteps.getTestParamsStorage().toString())));
+        scenarioName = String.format("%s. Params are: %s", title, paramsAndVariablesSteps.getTestParamsStorage().toString());
+        print(format("beforeScenario", "{0} {1}\n", "Scenario:", scenarioName));
     }
 
 }
