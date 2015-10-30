@@ -253,13 +253,13 @@ Given Set test param password value from property param.expert.password
 
 Scenario: Work with newsletters as expert user
 GivenStories:
-    stories/iproducts/02_newsletter.story#{name:Create newsletter},
-    stories/iproducts/02_newsletter.story#{name:Add note to unbublished newsletter},
-    stories/iproducts/02_newsletter.story#{name:Create newsletter issue for unpublished newsletter},
-    stories/iproducts/02_newsletter.story#{name:Publish newsletter},
-    stories/iproducts/02_newsletter.story#{name:Unpublish newsletter},
-    stories/iproducts/02_newsletter.story#{name:Edit issue in unpublished newsletter},
-    stories/iproducts/02_newsletter.story#{name:Remove issue in unpublished newsletter},
-    stories/iproducts/02_newsletter.story#{name:Edit unpublished newsletter},
-    stories/iproducts/02_newsletter.story#{name:Remove newsletter}
+    stories/iproducts/newsletter/02_newsletter.story#{name:Create newsletter},
+    stories/iproducts/newsletter/02_newsletter.story#{name:Add note to unbublished newsletter},
+    stories/iproducts/newsletter/02_newsletter.story#{name:Create newsletter issue for unpublished newsletter},
+    stories/iproducts/newsletter/02_newsletter.story#{name:Publish newsletter},
+    stories/iproducts/newsletter/02_newsletter.story#{name:Unpublish newsletter},
+    stories/iproducts/newsletter/02_newsletter.story#{name:Edit issue in unpublished newsletter},
+    stories/iproducts/newsletter/02_newsletter.story#{name:Remove issue in unpublished newsletter},
+    stories/iproducts/newsletter/02_newsletter.story#{name:Edit unpublished newsletter},
+    stories/iproducts/newsletter/02_newsletter.story#{name:Remove newsletter}
 Given Do nothing

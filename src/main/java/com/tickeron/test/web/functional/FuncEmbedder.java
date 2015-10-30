@@ -117,7 +117,11 @@ public class FuncEmbedder extends Embedder {
         String testStoriesPath  = env.getProperty("test.stories.path");
         String codeLocation = new ClassPathResource(testStoriesPath).getFile().getAbsolutePath() + File.separator;
 
-        List<String> searchIn = new LinkedList<>(Arrays.asList(String.format("*%s*.story", File.separator)));
+        List<String> searchIn = new LinkedList<>(Arrays.asList(
+                String.format("*%s*.story", File.separator),
+                String.format("*%s*%s*.story", File.separator, File.separator)
+                )
+        );
         if (storiesGlob.isPresent()) {
             searchIn.clear();
             for(String glob : storiesGlob.get().split(",")) {
