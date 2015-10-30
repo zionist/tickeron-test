@@ -12,6 +12,7 @@ import org.jbehave.core.embedder.EmbedderControls;
 import org.jbehave.core.embedder.EmbedderMonitor;
 import org.jbehave.core.io.CodeLocations;
 import org.jbehave.core.io.LoadFromClasspath;
+import org.jbehave.core.io.StoryFinder;
 import org.jbehave.core.reporters.ANSIConsoleOutput;
 import org.jbehave.core.reporters.CrossReference;
 import org.jbehave.core.reporters.StoryReporterBuilder;
@@ -103,6 +104,13 @@ public class FuncEmbedder extends Embedder {
     public InjectableStepsFactory stepsFactory() {
         return new InstanceStepsFactory(configuration(), serviceStepsBasic, seleniumSteps, paramsAndVariablesSteps);
         //return new InstanceStepsFactory(configuration());
+    }
+
+    protected List<String> storyPaths() throws IOException {
+        // Specify story paths as URLs
+        String testStoriesPath  = env.getProperty("test.stories.path");
+        String codeLocation = new ClassPathResource(testStoriesPath).getPath();
+        return new StoryFinder().findPaths(codeLocation, Arrays.asList("**/"), Arrays.asList(""), "file:" + codeLocation);
     }
 
     // list of stories files from ClassPathResource
