@@ -71,14 +71,10 @@ task testStories(type: JavaExec) {
     main = "com.tickeron.test.web.functional.Runner"
     classpath += files(sourceSets.main.runtimeClasspath)
     if (project.hasProperty('story')) {
-        String story = project.getProperties().get('story', '*')
-        if (story.matches('.+[.]story')) {
-            systemProperty 'story.glob', story
-        } else {
-            systemProperty 'story.glob', story + '.story'
-        }
+        String story = project.getProperties().get('story')
+        systemProperty 'story.glob', story
     } else {
-        systemProperty 'story.glob', '*'
+        systemProperty 'story.glob', null
     }
 
     if (project.hasProperty('meta')) {

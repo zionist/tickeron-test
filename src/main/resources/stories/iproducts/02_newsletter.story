@@ -10,7 +10,7 @@ Create newsletter
 Meta:
 @name Create newsletter
 GivenStories:
-    stories/01_login.story#{name:Login with email and password}
+    stories/login/01_login.story#{name:Login with email and password}
 !-- Open newsletters page
 When I click on iproducts menu tab with css selector div.main_menu_item:nth-child(4) > div:nth-child(1) > a:nth-child(1)
 When I click on newsletters menu item with css selector .open > ul:nth-child(3) > li:nth-child(1) > a:nth-child(2)
@@ -253,13 +253,13 @@ Given Set test param password value from property param.expert.password
 
 Scenario: Work with newsletters as expert user
 GivenStories:
-    stories/02_iproducts_newsletter.story#{name:Create newsletter},
-    stories/02_iproducts_newsletter.story#{name:Add note to unbublished newsletter},
-    stories/02_iproducts_newsletter.story#{name:Create newsletter issue for unpublished newsletter},
-    stories/02_iproducts_newsletter.story#{name:Publish newsletter},
-    stories/02_iproducts_newsletter.story#{name:Unpublish newsletter},
-    stories/02_iproducts_newsletter.story#{name:Edit issue in unpublished newsletter},
-    stories/02_iproducts_newsletter.story#{name:Remove issue in unpublished newsletter},
-    stories/02_iproducts_newsletter.story#{name:Edit unpublished newsletter},
-    stories/02_iproducts_newsletter.story#{name:Remove newsletter}
+    stories/iproducts/02_newsletter.story#{name:Create newsletter},
+    stories/iproducts/02_newsletter.story#{name:Add note to unbublished newsletter},
+    stories/iproducts/02_newsletter.story#{name:Create newsletter issue for unpublished newsletter},
+    stories/iproducts/02_newsletter.story#{name:Publish newsletter},
+    stories/iproducts/02_newsletter.story#{name:Unpublish newsletter},
+    stories/iproducts/02_newsletter.story#{name:Edit issue in unpublished newsletter},
+    stories/iproducts/02_newsletter.story#{name:Remove issue in unpublished newsletter},
+    stories/iproducts/02_newsletter.story#{name:Edit unpublished newsletter},
+    stories/iproducts/02_newsletter.story#{name:Remove newsletter}
 Given Do nothing

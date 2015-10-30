@@ -106,52 +106,29 @@ public class FuncEmbedder extends Embedder {
         //return new InstanceStepsFactory(configuration());
     }
 
-    protected List<String> storyPaths() throws IOException {
+    /**
+     * Get stories via glob. Or comma separated list of globs
+     * @param storiesGlob
+     * @return list of stories file matching glob
+     * @throws IOException
+     */
+    protected List<String> storyPaths(Optional<String> storiesGlob) throws IOException {
         // Specify story paths as URLs
         String testStoriesPath  = env.getProperty("test.stories.path");
-        String codeLocation = new ClassPathResource(testStoriesPath).getPath();
-        return new StoryFinder().findPaths(codeLocation, Arrays.asList("**/"), Arrays.asList(""), "file:" + codeLocation);
-    }
+        String codeLocation = new ClassPathResource(testStoriesPath).getFile().getAbsolutePath() + File.separator;
 
-    // list of stories files from ClassPathResource
-    public List<String> getStories(String storiesGlob) {
-        File storiesDir = null;
-        String testStoriesPath  = env.getProperty("test.stories.path");
-        try {
-            storiesDir = new ClassPathResource(testStoriesPath).getFile();
-        } catch (IOException e) {
-            System.err.println("Wrong path to stories");
-            e.printStackTrace();
-        }
-        if (!storiesDir.isDirectory()) {
-            System.err.println("Stories path is not a directory");
-            System.exit(1);
-        }
-        if (storiesDir.listFiles().length == 0 ) {
-            System.err.println("Stories path has no any story file");
-            System.exit(1);
-        }
-        List<String> paths = new LinkedList<String>();
-
-        PathMatcher matcher =
-                FileSystems.getDefault().getPathMatcher("glob:" + storiesGlob);
-        //File[] listFiles = storiesDir.listFiles();
-        //Arrays.sort(listFiles);
-        for (File file : storiesDir.listFiles()) {
-            String filename = file.getName();
-            Path p =  Paths.get(testStoriesPath, filename);
-            // glob match
-            if(matcher.matches(p.getFileName())) {
-                // exclude all scenarios with _<filename>. Do not skip exact matching for any story name
-                if (!filename.startsWith("_") || filename.equals(storiesGlob)) paths.add(p.toString());
+        List<String> searchIn = new LinkedList<>(Arrays.asList(String.format("*%s*.story", File.separator)));
+        if (storiesGlob.isPresent()) {
+            searchIn.clear();
+            for(String glob : storiesGlob.get().split(",")) {
+                searchIn.add(glob + File.separator);
             }
+
         }
-
-        // sort
-        Collections.sort(paths);
-
-        return paths;
+        List<String> exlude = Arrays.asList(String.format("*%s_*.story", File.separator));
+        return new StoryFinder().findPaths(codeLocation, searchIn, exlude, testStoriesPath + File.separator);
     }
+
     /**
     * Parse and set tests properties (for example username, password etc) from command line prompt
      */
@@ -170,13 +147,14 @@ public class FuncEmbedder extends Embedder {
         } );
     }
 
-    public void run(String storiesGlob) {
+    public void run(Optional<String> storiesGlob) throws IOException {
         Integer exit_code = 0;
-        try {
-            this.runStoriesAsPaths(getStories(storiesGlob));
-        } catch (Exception e) {
-            exit_code = 1;
-        }
+        //try {
+        this.runStoriesAsPaths(storyPaths(storiesGlob));
+        //} catch (Exception e) {
+            //e.printStackTrace();
+            //exit_code = 1;
+        //}
         if (this.failed) exit_code = 1;
         // May have client threads in background
         System.exit(exit_code);

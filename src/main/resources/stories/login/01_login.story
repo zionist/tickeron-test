@@ -7,6 +7,8 @@ I want to use Login Form
 
 Scenario:
 Setup params. Set user to advisor
+Meta:
+@basic
 Given Set test param username value from property param.advisor.username
 And Set test param password value from property param.advisor.password
 
@@ -34,7 +36,7 @@ Given Set test param password value from property param.expert.password
 Scenario:
 Login with email and password as Expert User
 GivenStories:
-    stories/01_login.story#{name:Login with email and password}
+    stories/login/01_login.story#{name:Login with email and password}
 Given Do nothing
 
 Scenario:
@@ -45,7 +47,7 @@ Given Set test param password value from property param.beginner.password
 Scenario:
 Login with email and password as Beginner User
 GivenStories:
-    stories/01_login.story#{name:Login with email and password}
+    stories/login/01_login.story#{name:Login with email and password}
 Given Do nothing
 
 Scenario:
@@ -56,5 +58,5 @@ Given Set test param password value from property param.intermediate.password
 Scenario:
 Login with email and password as Intermediate User
 GivenStories:
-    stories/01_login.story#{name:Login with email and password}
+    stories/login/01_login.story#{name:Login with email and password}
 Given Do nothing
