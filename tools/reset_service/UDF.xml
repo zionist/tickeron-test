@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" location="..\..\SQL\DataMigration" xmlns="http://tickeron.com/schemas/2015/migrations/udf">
+  <migrations>
+    <add type="Release">
+      <version>1</version>
+      <hotfixSequence xsi:nil="true" />
+      <backup>
+        <main primary="C:\Backups_with_data\Advisory_primary_v1.bak" secondary="C:\Backups_with_data\Advisory.bak" />
+        <fact primary="C:\Backups_with_data\Advisory_fact_primary_v1.bak" secondary="C:\Backups_with_data\Advisory_fact.bak" />
+      </backup>
+      <scripts />
+    </add>
+  </migrations>
+</Root>

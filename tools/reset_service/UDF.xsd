@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tickeron.com/schemas/2015/migrations/udf" elementFormDefault="qualified" targetNamespace="http://tickeron.com/schemas/2015/migrations/udf" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Root" nillable="true" type="tns:RootUDF" />
+  <xs:complexType name="RootUDF">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="migrations" type="tns:ArrayOfMigration" />
+    </xs:sequence>
+    <xs:attribute name="location" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="ArrayOfMigration">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="add" nillable="true" type="tns:Migration" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Migration">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="version" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" name="hotfixSequence" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" name="backup" type="tns:DatabaseBackup" />
+      <xs:element minOccurs="0" maxOccurs="1" name="checksum" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="scripts" type="tns:ArrayOfScriptReference" />
+    </xs:sequence>
+    <xs:attribute name="type" type="tns:EnMigrationTypes" use="required" />
+  </xs:complexType>
+  <xs:complexType name="DatabaseBackup">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="main" type="tns:BackupElement" />
+      <xs:element minOccurs="0" maxOccurs="1" name="fact" type="tns:BackupElement" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BackupElement">
+    <xs:attribute name="primary" type="xs:string" />
+    <xs:attribute name="secondary" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="ArrayOfScriptReference">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="path" nillable="true" type="tns:ScriptReference" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ScriptReference">
+    <xs:attribute name="value" type="xs:string" />
+    <xs:attribute name="checksum" type="xs:string" />
+  </xs:complexType>
+  <xs:simpleType name="EnMigrationTypes">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Hotfix" />
+      <xs:enumeration value="Release" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

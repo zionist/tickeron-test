@@ -1,0 +1,8 @@
+https://docs.google.com/document/d/1EIbNOiZxhubIo_p_pA7ayYffR_TsxjFv4FB8lMKCuQ0/edit#
+
+Connection string Z:\tickeron\tickeron_main\Advisory.Migrator\bin\Debug>DbUpgradeManager.exe reset-views  -c "Data Source=.\;Initial Catalog=Advisory;Integrated security=true"
+
+Test cases:
+DbUpgradeManager.exe reset-views  -c "Data Source=.\;Initial Catalog=Advisory;Integrated security=true"
+
+Test case 1: Restore from backup
