@@ -36,7 +36,7 @@ Given Set test param password value from property param.expert.password
 Scenario:
 Login with email and password as Expert User
 GivenStories:
-    stories/login/01_login.story#{name:Login with email and password}
+    stories/login/login.story#{name:Login with email and password}
 Given Do nothing
 
 Scenario:
@@ -47,7 +47,7 @@ Given Set test param password value from property param.beginner.password
 Scenario:
 Login with email and password as Beginner User
 GivenStories:
-    stories/login/01_login.story#{name:Login with email and password}
+    stories/login/login.story#{name:Login with email and password}
 Given Do nothing
 
 Scenario:
@@ -58,5 +58,5 @@ Given Set test param password value from property param.intermediate.password
 Scenario:
 Login with email and password as Intermediate User
 GivenStories:
-    stories/login/01_login.story#{name:Login with email and password}
+    stories/login/login.story#{name:Login with email and password}
 Given Do nothing

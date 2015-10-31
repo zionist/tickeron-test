@@ -1,4 +1,4 @@
-Story: Iproducts newsletter
+Story: Iproduct newsletter
 
 Scenario:
 Setup params. Set user to advisor
@@ -10,7 +10,7 @@ Create newsletter
 Meta:
 @name Create newsletter
 GivenStories:
-    stories/login/01_login.story#{name:Login with email and password}
+    stories/login/login.story#{name:Login with email and password}
 !-- Open newsletters page
 When I click on iproducts menu tab with css selector div.main_menu_item:nth-child(4) > div:nth-child(1) > a:nth-child(1)
 When I click on newsletters menu item with css selector .open > ul:nth-child(3) > li:nth-child(1) > a:nth-child(2)
@@ -253,13 +253,13 @@ Given Set test param password value from property param.expert.password
 
 Scenario: Work with newsletters as expert user
 GivenStories:
-    stories/iproducts/newsletter/02_newsletter.story#{name:Create newsletter},
-    stories/iproducts/newsletter/02_newsletter.story#{name:Add note to unbublished newsletter},
-    stories/iproducts/newsletter/02_newsletter.story#{name:Create newsletter issue for unpublished newsletter},
-    stories/iproducts/newsletter/02_newsletter.story#{name:Publish newsletter},
-    stories/iproducts/newsletter/02_newsletter.story#{name:Unpublish newsletter},
-    stories/iproducts/newsletter/02_newsletter.story#{name:Edit issue in unpublished newsletter},
-    stories/iproducts/newsletter/02_newsletter.story#{name:Remove issue in unpublished newsletter},
-    stories/iproducts/newsletter/02_newsletter.story#{name:Edit unpublished newsletter},
-    stories/iproducts/newsletter/02_newsletter.story#{name:Remove newsletter}
+    stories/iproduct/newsletter/newsletter.story#{name:Create newsletter},
+    stories/iproduct/newsletter/newsletter.story#{name:Add note to unbublished newsletter},
+    stories/iproduct/newsletter/newsletter.story#{name:Create newsletter issue for unpublished newsletter},
+    stories/iproduct/newsletter/newsletter.story#{name:Publish newsletter},
+    stories/iproduct/newsletter/newsletter.story#{name:Unpublish newsletter},
+    stories/iproduct/newsletter/newsletter.story#{name:Edit issue in unpublished newsletter},
+    stories/iproduct/newsletter/newsletter.story#{name:Remove issue in unpublished newsletter},
+    stories/iproduct/newsletter/newsletter.story#{name:Edit unpublished newsletter},
+    stories/iproduct/newsletter/newsletter.story#{name:Remove newsletter}
 Given Do nothing

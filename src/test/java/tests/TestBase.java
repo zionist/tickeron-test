@@ -45,7 +45,7 @@ public class TestBase extends TestCase {
         String codeLocation = new ClassPathResource(testStoriesPath).getFile().getAbsolutePath() + File.separator;
         //String codeLocation = "stories/";
         //List<String> searchIn = Arrays.asList(String.format("*%s*.story", File.separator));
-        List<String> searchIn = Arrays.asList(String.format("iproducts/*.story", File.separator));
+        List<String> searchIn = Arrays.asList(String.format("iproduct/*.story", File.separator));
         List<String> exlude = Arrays.asList(String.format("*%s_*.story", File.separator));
         System.out.println(new StoryFinder().findPaths(codeLocation, searchIn, exlude, "stories/"));
         //funcEmbedder.runStoriesAsPaths((new StoryFinder().findPaths(codeLocation, searchIn, exlude, "stories/")));

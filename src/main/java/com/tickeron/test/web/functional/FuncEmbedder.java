@@ -13,7 +13,6 @@ import org.jbehave.core.embedder.EmbedderMonitor;
 import org.jbehave.core.io.CodeLocations;
 import org.jbehave.core.io.LoadFromClasspath;
 import org.jbehave.core.io.StoryFinder;
-import org.jbehave.core.reporters.ANSIConsoleOutput;
 import org.jbehave.core.reporters.CrossReference;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
@@ -26,10 +25,6 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -112,7 +107,7 @@ public class FuncEmbedder extends Embedder {
      * @return list of stories file matching glob
      * @throws IOException
      */
-    protected List<String> storyPaths(Optional<String> storiesGlob) throws IOException {
+    protected List<String> getStoryPaths(Optional<String> storiesGlob) throws IOException {
         // Specify story paths as URLs
         String testStoriesPath  = env.getProperty("test.stories.path");
         String codeLocation = new ClassPathResource(testStoriesPath).getFile().getAbsolutePath() + File.separator;
@@ -129,7 +124,12 @@ public class FuncEmbedder extends Embedder {
             }
 
         }
-        List<String> exlude = Arrays.asList(String.format("*%s_*.story", File.separator));
+        List<String> exlude = Arrays.asList(
+                String.format("*%s_*.story", File.separator),
+                String.format("*%s_*.txt", File.separator),
+                String.format("*.txt", File.separator)
+                );
+
         return new StoryFinder().findPaths(codeLocation, searchIn, exlude, testStoriesPath + File.separator);
     }
 
@@ -154,7 +154,7 @@ public class FuncEmbedder extends Embedder {
     public void run(Optional<String> storiesGlob) throws IOException {
         Integer exit_code = 0;
         //try {
-        this.runStoriesAsPaths(storyPaths(storiesGlob));
+        this.runStoriesAsPaths(getStoryPaths(storiesGlob));
         //} catch (Exception e) {
             //e.printStackTrace();
             //exit_code = 1;

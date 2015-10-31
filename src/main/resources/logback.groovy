@@ -6,7 +6,8 @@ import static ch.qos.logback.classic.Level.*
 def logsRoot = 'logs'
 def projectName = 'tickeron-test'
 //def logPattern = '%d [%t] %-5p %c{1} - %m%n'
-def logPattern = '%-5p - %m%n'
+def logPattern = '%d %-5p - %m%n'
+//def logPattern = '%-5p - %m%n'
 
 appender('CONSOLE', ConsoleAppender) {
     encoder(PatternLayoutEncoder) {
@@ -33,5 +34,5 @@ logger('com.tickeron.test', WARN)
 logger('com.tickeron.test.web.functional', INFO)
 logger('org.springframework', ERROR)
 
-root(INFO, ['CONSOLE', 'FILE'])
+root(INFO, ['CONSOLE'])
 //root(ERROR, ['FILE'])

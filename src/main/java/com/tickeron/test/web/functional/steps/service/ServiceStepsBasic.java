@@ -7,6 +7,7 @@ import com.tickeron.test.common.exceptions.AssertionErrorWithContextParamsExcept
 import com.tickeron.test.common.exceptions.PropertyNotFoundException;
 import com.tickeron.test.web.functional.steps.ParamsAndVariablesSteps;
 import com.tickeron.test.web.functional.steps.SeleniumSteps;
+import org.apache.xpath.operations.Bool;
 import org.hamcrest.CoreMatchers;
 import org.jbehave.core.annotations.*;
 import org.openqa.selenium.By;
@@ -63,6 +64,38 @@ public class ServiceStepsBasic {
     protected String substituteParamsAndVariables(String input) {
         return paramsAndVariablesSteps.substituteParamsAndVariables(input);
     }
+
+
+    @BeforeStories
+    /**
+     * Stops service
+     */
+    public void beforeStories() {
+        if (!environment.getProperty("service.reset", Boolean.class)) return;
+        String url = environment.getProperty("service.reset.daemon.url");
+        log.debug("Service reset started on " + url);
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        try {
+        // stop service
+            Request.Builder builder = new Request.Builder().url(url + "stop");
+            Request request = builder.build();
+            okHttpClient.newCall(request).execute();
+        // reset db
+            builder = new Request.Builder().url(url + "db_reset");
+            request = builder.build();
+            okHttpClient.newCall(request).execute();
+        // start service
+            builder = new Request.Builder().url(url + "start");
+            request = builder.build();
+            okHttpClient.newCall(request).execute();
+        } catch (IOException e ) {
+            fail(String.format("Can't perform action with service reset daemon %s", url));
+            e.printStackTrace();
+        }
+        log.debug("Service reset finished");
+    }
+
 
     @When("I wait until service ready")
     public void waitUntilBrowserReady() throws InterruptedException {
@@ -246,7 +279,7 @@ public class ServiceStepsBasic {
     public void compareDownloadedFileChecksumWithLocalFile(String fileName) throws IOException, NoSuchAlgorithmException {
         InputStream inputStream = new FileInputStream(getLocalFile(fileName).getAbsolutePath());
         assertEquals(String.format("Downloaded file is not %s. Please see md5 checksum", fileName),
-                 MD5StringFromInputStream(inputStream), md5String.get());
+                MD5StringFromInputStream(inputStream), md5String.get());
         md5String = Optional.empty();
 
     }
@@ -272,6 +305,19 @@ public class ServiceStepsBasic {
     public void checkElementTextByCssSelectorIs(String desription, String selector, String text) {
         waitUntilElementIsVisibleByCss(desription, selector);
         waitUntilElementContentDisplayedAndTextIs(By.cssSelector(selector), text);
+    }
+
+    @Then("I see $description with css selector $selector is not: $text")
+    // description only for humans
+    public void checkElementTextByCssSelectorIsNot(String desription, String selector, String text) {
+        try {
+            assertNotEquals(text, getWebDriver().findElement(By.cssSelector(selector)).getText());
+        }
+        // It's ok if there is not element
+        catch (org.openqa.selenium.NoSuchElementException e) {}
+        catch (AssertionError e) {
+            throw new AssertionErrorWithContextParamsException(e, paramsAndVariablesSteps.getTestParamsStorage());
+        }
     }
 
     @Then("I see $description with css selector $selector contains: $text")
@@ -319,6 +365,7 @@ public class ServiceStepsBasic {
         try {
             new WebDriverWait(getWebDriver(), environment.getProperty("wait.timeout.big", Integer.class))
                     .until(ExpectedConditions.textToBePresentInElement(webElement, content));
+            assertEquals(content, getWebDriver().findElement(by).getText());
         }
         catch (WebDriverException e) {
             //log.warn(String.format("element %s does not contains %s. Can't perform any action with it", by.toString(), content), paramsAndVariablesSteps.getTestParamsStorage());
@@ -327,6 +374,9 @@ public class ServiceStepsBasic {
             } catch (AssertionError a) {
                 throw new AssertionErrorWithContextParamsException(a, paramsAndVariablesSteps.getTestParamsStorage());
             }
+        }
+        catch (AssertionError e) {
+            throw new AssertionErrorWithContextParamsException(e, paramsAndVariablesSteps.getTestParamsStorage());
         }
         log.debug(String.format("Waiting for element %s contains text %s finished successfully", by.toString(), content));
     }
@@ -343,6 +393,7 @@ public class ServiceStepsBasic {
         try {
             new WebDriverWait(getWebDriver(), environment.getProperty("wait.timeout.big", Integer.class))
                     .until(ExpectedConditions.textToBePresentInElement(webElement, content));
+            assertThat(getWebDriver().findElement(by).getText(), CoreMatchers.containsString(content));
         }
         catch (WebDriverException e) {
             //log.warn(String.format("element %s does not contains %s. Can't perform any action with it", by.toString(), content), paramsAndVariablesSteps.getTestParamsStorage());
@@ -351,6 +402,8 @@ public class ServiceStepsBasic {
             } catch (AssertionError a) {
                 throw new AssertionErrorWithContextParamsException(a, paramsAndVariablesSteps.getTestParamsStorage());
             }
+        } catch (AssertionError e) {
+            throw new AssertionErrorWithContextParamsException(e, paramsAndVariablesSteps.getTestParamsStorage());
         }
         log.debug(String.format("Waiting for element %s contains text %s finished successfully", by.toString(), content));
 
