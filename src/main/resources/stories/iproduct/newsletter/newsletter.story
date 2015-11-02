@@ -161,16 +161,29 @@ And I type 3.00 into fee field with css selector input.form-control:nth-child(2)
 And I click on Save fee button with css selector div.col-sm-2:nth-child(4) > div:nth-child(1) > div:nth-child(3) > span:nth-child(1) > button:nth-child(2)
 !-- Check fee is changed
 Then I see fee value with css selector h3.ng-scope is: $3.00
-!-- Change description
+!-- Check description is changed
 When I click on edit description icon with css selector button.btn-link
 And I type description edited into descripton textarea with css selector textarea.form-control
 And I click on Save description button with css selector .pull-left > button:nth-child(2)
 Then I see description with css selector div.col-sm-11:nth-child(2) > span:nth-child(1) is: description edited
+!-- Download file .Check it
+When I click on Edit link with css selector .cx-nowrap > button:nth-child(1)
+And I wait until service ready
+When I download newsletter file from <a> element with css selector .col-sm-offset-3 > div:nth-child(1) > div:nth-child(1) > a:nth-child(1)
+Then Downloaded file is cat2.jpeg
 
 Scenario:
 Add issue to published newsletter
 Meta:
 @name Add issue to published newsletter
+!-- Open published newsletter using top menu
+When I click on iproducts menu tab with css selector div.main_menu_item:nth-child(4) > div:nth-child(1) > a:nth-child(1)
+And I click on newsletters menu item with css selector .open > ul:nth-child(3) > li:nth-child(1) > a:nth-child(2)
+And I click on published tab with css selector ul.nav:nth-child(3) > li:nth-child(2) > a:nth-child(1)
+And I wait until service ready
+And I click on newsletter1 link with css selector .cx-grid-title
+And I wait until service ready
+!-- Open published newsletter using top menu
 When I click on add new issue button with css selector button.pull-right
 Then I see issue page header with css selector h2.ng-scope is: New issue
 When I type issue2 into issue title input with css selector input.ng-valid-maxlength
@@ -208,11 +221,14 @@ When I type issue2_edited into issue titile input with css selector input.ng-val
 And I upload file sample2.pdf using input element with xpath //input[@type='file']
 And I click on ticker trash icon with css selector td.text-center:nth-child(8) > a:nth-child(1)
 And I click on save button with css selector div.row:nth-child(9) > div:nth-child(1) > span:nth-child(1) > button:nth-child(2)
-!-- Check issue was edited, ticker is in the issue. Download issue file, check it
+!-- Check issue was edited. Download issue file, check it
 And I wait until service ready
 Then I see issue tittle in issues list with css selector .cx-grid-title is: issue2_edited
 When I download newsletter issue file from <a> element with css selector a.cx-action-icon-button
 Then Downloaded file is sample2.pdf
+!-- Click on edit. Check there is no tickers added
+When I click on edit issue link with css selector button.fa-pencil
+Then I see tickers list with css selector div.row:nth-child(8) > div:nth-child(1) > span:nth-child(1) > span:nth-child(2) > div:nth-child(1) is: NO TICKERS SELECTED YET
 
 Scenario:
 Edit published issue in published newsletter
@@ -226,11 +242,14 @@ When I type issue1_edited into issue titile input with css selector input.ng-val
 And I upload file sample2.pdf using input element with xpath //input[@type='file']
 And I click on ticker trash icon with css selector td.text-center:nth-child(8) > a:nth-child(1)
 And I click on save button with css selector div.row:nth-child(9) > div:nth-child(1) > span:nth-child(1) > button:nth-child(2)
-!-- Check issue was edited, ticker is in the issue. Download issue file, check it
+!-- Check issue was edited. Download issue file, check it
 And I wait until service ready
 Then I see issue tittle in issues list with css selector .cx-grid-title is: issue1_edited
 When I download newsletter issue file from <a> element with css selector a.cx-action-icon-button
 Then Downloaded file is sample2.pdf
+!-- Click on edit. Check there is no tickers added
+When I click on edit issue link with css selector button.fa-pencil
+Then I see tickers list with css selector div.row:nth-child(8) > div:nth-child(1) > span:nth-child(1) > span:nth-child(2) > div:nth-child(1) is: NO TICKERS SELECTED YET
 
 Scenario:
 Publish issue in published newsletter
@@ -301,6 +320,11 @@ And I wait until service ready
 Then I see newsletter title with css selector .cx-subtitle is: newsletter1_edited
 And I see newsletter text with css selector div.col-sm-10:nth-child(2) > span:nth-child(1) contains: Created on
 And I see newsletter link with css selector a.ng-isolate-scope:nth-child(3) > span:nth-child(1) is: View sample issue
+!-- Download newsletter file on edit page. Check it equals uploaded file
+When I click on Edit newsletter link with css selector button.cx-right-nav-btn:nth-child(1)
+And I wait until service ready
+When I download newsletter file from <a> element with css selector .col-sm-offset-3 > div:nth-child(1) > div:nth-child(1) > a:nth-child(1)
+Then Downloaded file is cat2.jpeg
 
 Scenario:
 Edit issue in unpublished newsletter
