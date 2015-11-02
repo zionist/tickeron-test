@@ -74,7 +74,7 @@ And I wait until service ready
 When I click on add new issue button with css selector button.pull-right
 Then I see issue page header with css selector h2.ng-scope is: New issue
 When I type issue1 into issue title input with css selector input.ng-valid-maxlength
-And I upload file cat.jpeg using input element with xpath //input[@type='file']
+And I upload file sample.pdf using input element with xpath //input[@type='file']
 !-- # Wait until tickers list will be loaded
 And I click on ticker selection input with css selector #filterInput
 And I will wait until ticker element element with css selector #chb34108 will be visible
@@ -96,7 +96,7 @@ Then I see page header with css selector .cx-subtitle is: newsletter1
 Then I see ussue title with css selector .cx-grid-title is: issue1
 And I see tickers table field with css selector .cx-navigation-list-item > div:nth-child(2) > div:nth-child(2) > span:nth-child(1) > span:nth-child(1) > span:nth-child(1) is: A
 When I download newsletter issue file from <a> element with css selector a.cx-action-icon-button
-Then Downloaded file is cat.jpeg
+Then Downloaded file is sample.pdf
 
 
 Scenario:
@@ -174,7 +174,7 @@ Meta:
 When I click on add new issue button with css selector button.pull-right
 Then I see issue page header with css selector h2.ng-scope is: New issue
 When I type issue2 into issue title input with css selector input.ng-valid-maxlength
-And I upload file cat.jpeg using input element with xpath //input[@type='file']
+And I upload file sample.pdf using input element with xpath //input[@type='file']
 !-- # Wait until tickers list will be loaded
 And I click on ticker selection input with css selector #filterInput
 And I will wait until ticker element element with css selector #chb34108 will be visible
@@ -195,7 +195,7 @@ Then I see issue tittle in issues list with css selector .cx-grid-title is: issu
 Then I see page header with css selector .cx-subtitle is: newsletter1_edited
 And I see tickers table field with css selector .cx-navigation-list-item > div:nth-child(3) > span:nth-child(1) > span:nth-child(1) > span:nth-child(1) is: A
 When I download newsletter issue file from <a> element with css selector a.cx-action-icon-button
-Then Downloaded file is cat.jpeg
+Then Downloaded file is sample.pdf
 
 Scenario:
 Edit unpublished issue in published newsletter
@@ -205,14 +205,14 @@ Meta:
 When I click on edit issue link with css selector button.fa-pencil
 Then I see header with css selector h2.ng-scope is: Edit issue
 When I type issue2_edited into issue titile input with css selector input.ng-valid-maxlength
-And I upload file cat2.jpeg using input element with xpath //input[@type='file']
+And I upload file sample2.pdf using input element with xpath //input[@type='file']
 And I click on ticker trash icon with css selector td.text-center:nth-child(8) > a:nth-child(1)
 And I click on save button with css selector div.row:nth-child(9) > div:nth-child(1) > span:nth-child(1) > button:nth-child(2)
 !-- Check issue was edited, ticker is in the issue. Download issue file, check it
 And I wait until service ready
 Then I see issue tittle in issues list with css selector .cx-grid-title is: issue2_edited
 When I download newsletter issue file from <a> element with css selector a.cx-action-icon-button
-Then Downloaded file is cat2.jpeg
+Then Downloaded file is sample2.pdf
 
 Scenario:
 Edit published issue in published newsletter
@@ -223,14 +223,14 @@ When I click on published issues tab with css selector .nav-tabs > li:nth-child(
 And I click on edit icon with css selector button.fa-pencil
 Then I see header with css selector h2.ng-scope is: Edit issue
 When I type issue1_edited into issue titile input with css selector input.ng-valid-maxlength
-And I upload file cat2.jpeg using input element with xpath //input[@type='file']
+And I upload file sample2.pdf using input element with xpath //input[@type='file']
 And I click on ticker trash icon with css selector td.text-center:nth-child(8) > a:nth-child(1)
 And I click on save button with css selector div.row:nth-child(9) > div:nth-child(1) > span:nth-child(1) > button:nth-child(2)
 !-- Check issue was edited, ticker is in the issue. Download issue file, check it
 And I wait until service ready
 Then I see issue tittle in issues list with css selector .cx-grid-title is: issue1_edited
 When I download newsletter issue file from <a> element with css selector a.cx-action-icon-button
-Then Downloaded file is cat2.jpeg
+Then Downloaded file is sample2.pdf
 
 Scenario:
 Publish issue in published newsletter
@@ -246,7 +246,7 @@ And I wait until service ready
 Then I see issue titile with css selector div.cx-navigation-list-item:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > a:nth-child(1) > span:nth-child(1) is: issue2_edited
 And I see published issue tab with css selector li.active:nth-child(2) > a:nth-child(1) is: Published Issues
 When I download issue file file from <a> element with css selector div.cx-navigation-list-item:nth-child(2) > div:nth-child(5) > div:nth-child(1) > div:nth-child(1) > a:nth-child(1)
-Then Downloaded file is cat2.jpeg
+Then Downloaded file is sample2.pdf
 
 Scenario:
 Unpublish published newsletter issue
@@ -261,7 +261,7 @@ And I wait until service ready
 Then I see issue titile with css selector .cx-grid-title is: issue2_edited
 And I see Unpublished issues tab with css selector .nav-tabs > li:nth-child(1) > a:nth-child(1) is: Unpublished Issues
 When I download issue file from <a> element with css selector a.btn:nth-child(1)
-Then Downloaded file is cat2.jpeg
+Then Downloaded file is sample2.pdf
 
 Scenario:
 Remove newsletter issue from published newsletter
@@ -327,7 +327,7 @@ And I will move in action to Add button element with css selector div.col-sm-4 >
 And I will click in action on Add button element with css selector div.col-sm-4 > button:nth-child(1)
 Then I perform previously recorded action
 !-- # Wait until tickers list will be not visible
-When I upload file cat2.jpeg using input element with xpath //input[@type='file']
+When I upload file sample2.pdf using input element with xpath //input[@type='file']
 When I click on save button with css selector span.pull-right:nth-child(1) > button:nth-child(2)
 When I wait big timeout
 
