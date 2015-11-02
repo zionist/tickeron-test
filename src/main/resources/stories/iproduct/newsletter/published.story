@@ -239,7 +239,7 @@ Then Downloaded file is cat2.jpeg
 Scenario:
 Remove newsletter
 Meta:
-@name remove newsletter
+@name Remove newsletter
 GivenStories:
     stories/iproduct/newsletter/unpublished.story#{name:Remove newsletter}
 Given Do nothing
