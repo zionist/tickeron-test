@@ -41,7 +41,7 @@ When I wait big timeout
 And I click on save button with css selector span.pull-right > button:nth-child(2)
 And I wait until service ready
 !-- Check chart was created
-Then I see opinion tittle with css selector .cx-subtitle is: chart1
+Then I see chart tittle with css selector .cx-subtitle is: chart1
 And I see page header with css selector .cx-ma-less-bottom-margin is: Personal Chart
 And I see first ticker with css selector span.text-center > span:nth-child(1) is: A
 And I see second ticker with css selector span.text-center > span:nth-child(2) > span:nth-child(1) is: AA
@@ -52,7 +52,7 @@ Scenario:
 Add note to chart
 Meta:
 @name Add note to chart
-!-- Open opinion page
+!-- Open chart page
 When I click on iproducts menu tab with css selector div.main_menu_item:nth-child(4) > div:nth-child(1) > a:nth-child(1)
 When I click on charts menu item with css selector .open > ul:nth-child(3) > li:nth-child(3) > a:nth-child(2)
 And I wait until service ready
@@ -85,7 +85,7 @@ And I wait until service ready
 And I click on edit link with css selector button.cx-right-nav-btn:nth-child(1)
 !-- Edit page. Download file. Upload new file.
 And I wait until service ready
-And I type chart1_edited into $description with css selector input.ng-valid-maxlength
+And I type chart1_edited into titile input with css selector input.ng-valid-maxlength
 And I download chart file from <a> element with css selector .col-sm-offset-3 > div:nth-child(1) > div:nth-child(1) > a:nth-child(1)
 Then Downloaded file is cat.jpeg
 When I upload file cat2.jpeg using input element with xpath //input[@type='file']
